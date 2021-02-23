@@ -102,6 +102,15 @@ function moveCard(oldStack, index, newStack) {
 }
 function drawNextCard() {
   if (gameWonFlag) return;
+  if (deck.stack.length != 0) {
+    let temp = deck.stack[0];
+    deck.stack.shift();
+    deckOpen.stack.unshift(temp);
+  } else {
+    let temp = deckOpen.stack.reverse();
+    deck.stack = temp;
+    deckOpen.stack = [];
+  }
 }
 
 function checkWin() {
