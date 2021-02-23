@@ -43,6 +43,16 @@ let deckOpen = { name: 'deckOpen', stack: [] };
 function moveCard(oldStack, index, newStack) {
   if (gameWonFlag) return;
   if (newStack.name == deck.name || newStack.name == deckOpen.name) return;
+  if (oldStack.name == deck.name || (oldStack.name == deckOpen.name && index != 0)) return;
+
+  if (
+    oldStack.name != endstack_1.name &&
+    oldStack.name != endstack_2.name &&
+    oldStack.name != endstack_3.name &&
+    oldStack.name != endstack_4.name
+  ) {
+    if (index != 0) return;
+  }
   if (
     newStack.name != endstack_1.name &&
     newStack.name != endstack_2.name &&
@@ -67,6 +77,18 @@ function moveCard(oldStack, index, newStack) {
     }
     if (allowedColor.includes(newStack.stack[0].type) == false) return;
   } else {
+    if (newStack.stack.length == 0 && oldStack.stack[index].cardValue != 1) return;
+    else if (
+      oldStack.stack[index].cardValue - 1 != newStack.stack[index].cardValue &&
+      oldStack.stack[index].cardValue > 1
+    )
+      return;
+    let tempType = newStack.name.split('_')[1];
+    let notAllowedFlag = false;
+    for (let i = index; i >= 0; i--) {
+      if (oldStack.stack[i].type != tempType) notAllowedFlag = true;
+    }
+    if (notAllowedFlag) return;
   }
   gameStates.push(new GameState());
   for (let i = index; i >= 0; i--) {
