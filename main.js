@@ -1,5 +1,6 @@
-const { cards } = require('./cards.json');
+let { cards } = require('./cards.json');
 
+let cardsCopy = cards;
 // for (let i of cards) {
 //   let type = '';
 //   switch (i.type) {
@@ -102,6 +103,8 @@ function moveCard(oldStack, index, newStack) {
 }
 function drawNextCard() {
   if (gameWonFlag) return;
+  gameStates.push(new GameState());
+
   if (deck.stack.length != 0) {
     let temp = deck.stack[0];
     deck.stack.shift();
@@ -160,3 +163,126 @@ function GameState() {
     console.log('End Stack Diamond: ' + this.endstack_4.stack);
   };
 }
+
+//StartUp Card-Deal: Random
+for (let x = 1; x <= 1; x++) {
+  let tempIndex = Math.floor(Math.random() * cardsCopy.length);
+  let temp = cardsCopy[tempIndex];
+  cardsCopy = cardsCopy.filter((el, i) => i != tempIndex);
+  if (x == 1) temp.visible = true;
+  else temp.visible = false;
+  stack_1.stack.unshift(temp);
+}
+
+for (let x = 1; x <= 2; x++) {
+  let tempIndex = Math.floor(Math.random() * cardsCopy.length);
+  let temp = cardsCopy[tempIndex];
+  cardsCopy = cardsCopy.filter((el, i) => i != tempIndex);
+  if (x == 2) temp.visible = true;
+  else temp.visible = false;
+  stack_2.stack.unshift(temp);
+}
+
+for (let x = 1; x <= 3; x++) {
+  let tempIndex = Math.floor(Math.random() * cardsCopy.length);
+  let temp = cardsCopy[tempIndex];
+  cardsCopy = cardsCopy.filter((el, i) => i != tempIndex);
+  if (x == 3) temp.visible = true;
+  else temp.visible = false;
+  stack_3.stack.unshift(temp);
+}
+
+for (let x = 1; x <= 4; x++) {
+  let tempIndex = Math.floor(Math.random() * cardsCopy.length);
+  let temp = cardsCopy[tempIndex];
+  cardsCopy = cardsCopy.filter((el, i) => i != tempIndex);
+  if (x == 4) temp.visible = true;
+  else temp.visible = false;
+  stack_4.stack.unshift(temp);
+}
+
+for (let x = 1; x <= 5; x++) {
+  let tempIndex = Math.floor(Math.random() * cardsCopy.length);
+  let temp = cardsCopy[tempIndex];
+  cardsCopy = cardsCopy.filter((el, i) => i != tempIndex);
+  if (x == 5) temp.visible = true;
+  else temp.visible = false;
+  stack_5.stack.unshift(temp);
+}
+
+for (let x = 1; x <= 6; x++) {
+  let tempIndex = Math.floor(Math.random() * cardsCopy.length);
+  let temp = cardsCopy[tempIndex];
+  cardsCopy = cardsCopy.filter((el, i) => i != tempIndex);
+  if (x == 6) temp.visible = true;
+  else temp.visible = false;
+  stack_6.stack.unshift(temp);
+}
+
+for (let x = 1; x <= 7; x++) {
+  let tempIndex = Math.floor(Math.random() * cardsCopy.length);
+  let temp = cardsCopy[tempIndex];
+  cardsCopy = cardsCopy.filter((el, i) => i != tempIndex);
+  if (x == 7) temp.visible = true;
+  else temp.visible = false;
+  stack_7.stack.unshift(temp);
+}
+
+// console.log(
+//   stack_1.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+// console.log('-----------------------------------------------');
+// console.log(
+//   stack_2.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+// console.log('-----------------------------------------------');
+// console.log(
+//   stack_3.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+// console.log('-----------------------------------------------');
+// console.log(
+//   stack_4.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+// console.log('-----------------------------------------------');
+// console.log(
+//   stack_5.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+// console.log('-----------------------------------------------');
+// console.log(
+//   stack_6.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+// console.log('-----------------------------------------------');
+// console.log(
+//   stack_7.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+
+// console.log('###########################################');
+
+// console.log(stack_1.stack.length);
+// console.log('-----------------------------------------------');
+// console.log(stack_2.stack.length);
+// console.log('-----------------------------------------------');
+// console.log(stack_3.stack.length);
+// console.log('-----------------------------------------------');
+// console.log(stack_4.stack.length);
+// console.log('-----------------------------------------------');
+// console.log(stack_5.stack.length);
+// console.log('-----------------------------------------------');
+// console.log(stack_6.stack.length);
+// console.log('-----------------------------------------------');
+// console.log(stack_7.stack.length);
+
+// console.log('###########################################');
+
+// console.log(
+//   'Sum of all Stacks: ',
+//   stack_1.stack.length +
+//     stack_2.stack.length +
+//     stack_3.stack.length +
+//     stack_4.stack.length +
+//     stack_5.stack.length +
+//     stack_6.stack.length +
+//     stack_7.stack.length,
+// );
+
+// console.log('Sum of Deck: ', cardsCopy.length);
