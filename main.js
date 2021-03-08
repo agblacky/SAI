@@ -1,4 +1,5 @@
 let { cards } = require('./cards.json');
+let prompt = require('prompt-sync')();
 
 let cardsCopy = cards;
 // for (let i of cards) {
@@ -25,21 +26,125 @@ let gameStates = {
   stack: [],
 };
 
-let stack_1 = { name: 'stack_1', stack: [] };
-let stack_2 = { name: 'stack_2', stack: [] };
-let stack_3 = { name: 'stack_3', stack: [] };
-let stack_4 = { name: 'stack_4', stack: [] };
-let stack_5 = { name: 'stack_5', stack: [] };
-let stack_6 = { name: 'stack_6', stack: [] };
-let stack_7 = { name: 'stack_7', stack: [] };
+let stack_1 = {
+  name: 'stack_1',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
+let stack_2 = {
+  name: 'stack_2',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
+let stack_3 = {
+  name: 'stack_3',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
+let stack_4 = {
+  name: 'stack_4',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
+let stack_5 = {
+  name: 'stack_5',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
+let stack_6 = {
+  name: 'stack_6',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
+let stack_7 = {
+  name: 'stack_7',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
 
-let endstack_1 = { name: 'endstack_1', stack: [] };
-let endstack_2 = { name: 'endstack_2', stack: [] };
-let endstack_3 = { name: 'endstack_3', stack: [] };
-let endstack_4 = { name: 'endstack_4', stack: [] };
+let endstack_1 = {
+  name: 'endstack_1',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
+let endstack_2 = {
+  name: 'endstack_2',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
+let endstack_3 = {
+  name: 'endstack_3',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
+let endstack_4 = {
+  name: 'endstack_4',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
 
-let deck = { name: 'deck', stack: [] };
-let deckOpen = { name: 'deckOpen', stack: [] };
+let deck = {
+  name: 'deck',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
+let deckOpen = {
+  name: 'deckOpen',
+  stack: [],
+  toString: function () {
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
+  },
+};
 
 function moveCard(oldStack, index, newStack) {
   if (gameWonFlag) return;
@@ -92,6 +197,7 @@ function moveCard(oldStack, index, newStack) {
     if (notAllowedFlag) return;
   }
   gameStates.push(new GameState());
+  if (oldStack.stack.length != 1) oldStack.stack[index - 1].visible = true;
   for (let i = index; i >= 0; i--) {
     newStack.stack.unshift(oldStack.stack[i]);
   }
@@ -108,8 +214,11 @@ function drawNextCard() {
   if (deck.stack.length != 0) {
     let temp = deck.stack[0];
     deck.stack.shift();
+    temp.visible = true;
     deckOpen.stack.unshift(temp);
+    deckOpen.stack[1].visible = false;
   } else {
+    deckOpen.stack[0].visible = false;
     let temp = deckOpen.stack.reverse();
     deck.stack = temp;
     deckOpen.stack = [];
@@ -228,6 +337,7 @@ for (let x = 1; x <= 7; x++) {
   stack_7.stack.unshift(temp);
 }
 
+/*
 // console.log(
 //   stack_1.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
 // );
@@ -286,3 +396,32 @@ for (let x = 1; x <= 7; x++) {
 // );
 
 // console.log('Sum of Deck: ', cardsCopy.length);
+*/
+console.log('Stack 1: \n', stack_1.toString());
+console.log('Stack 2: \n', stack_2.toString());
+console.log('Stack 3: \n', stack_3.toString());
+console.log('Stack 4: \n', stack_4.toString());
+console.log('Stack 5: \n', stack_5.toString());
+console.log('Stack 6: \n', stack_6.toString());
+console.log('Stack 7: \n', stack_7.toString());
+
+let userPlay = prompt('What do u want to do? mC-from-to-index || dC : ');
+
+while (userPlay != '') {
+  switch (userPlay) {
+    case userPlay.includes('mC'):
+      let temp = userPlay.split('-');
+      switch (temp[1]) {
+        case '1':
+          switch (temp[2]) {
+            case '2':
+              let index = Number(temp[3]);
+              moveCard(1, index, 2);
+              break;
+          }
+          break;
+      }
+      break;
+  }
+  userPlay = prompt('What do u want to do? mC-from-to-index || dC : ');
+}
