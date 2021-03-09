@@ -148,6 +148,8 @@ let deckOpen = {
 
 function moveCard(oldStack, index, newStack) {
   console.log('IN MOVE FUNC');
+  console.log(oldStack.name);
+  console.log(newStack.name);
 
   if (gameWonFlag) return;
   if (newStack.name == deck.name || newStack.name == deckOpen.name) return;
@@ -173,12 +175,14 @@ function moveCard(oldStack, index, newStack) {
     if (oldStack.stack[index].visible == false) return;
     console.log('Flag 1');
 
+    console.log('IF 1: ', oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0);
+    console.log(
+      'IF 2: ',
+      Number(oldStack.stack[index].cardValue) + 1 != newStack.stack[0].cardValue,
+    );
+
     if (oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0) return;
-    else if (
-      oldStack.stack[index].cardValue + 1 != newStack.stack[0].cardValue &&
-      oldStack.stack[index].cardValue < 13
-    )
-      return;
+    else if (Number(oldStack.stack[index].cardValue) + 1 != newStack.stack[0].cardValue) return;
     console.log('Flag 2');
 
     let allowedColor = ['1', '4'];
@@ -212,8 +216,9 @@ function moveCard(oldStack, index, newStack) {
   }
   console.log('NO EXECPTIONS');
 
-  gameStates.push(new GameState());
-  if (oldStack.stack.length != 1) oldStack.stack[index - 1].visible = true;
+  gameStates.stack.push(new GameState());
+  console.log(oldStack.stack[index + 1]);
+  if (oldStack.stack.length != 1) oldStack.stack[index + 1].visible = true;
   for (let i = index; i >= 0; i--) {
     newStack.stack.unshift(oldStack.stack[i]);
   }
@@ -225,14 +230,15 @@ function moveCard(oldStack, index, newStack) {
 }
 function drawNextCard() {
   if (gameWonFlag) return;
-  gameStates.push(new GameState());
+  gameStates.stack.push(new GameState());
 
   if (deck.stack.length != 0) {
     let temp = deck.stack[0];
     deck.stack.shift();
     temp.visible = true;
     deckOpen.stack.unshift(temp);
-    deckOpen.stack[1].visible = false;
+
+    if (deckOpen.stack.length > 1) deckOpen.stack[1].visible = false;
   } else {
     deckOpen.stack[0].visible = false;
     let temp = deckOpen.stack.reverse();
@@ -352,6 +358,15 @@ for (let x = 1; x <= 7; x++) {
   else temp.visible = false;
   stack_7.stack.unshift(temp);
 }
+//Deck mit restlichen Karten auffüllen
+//deck.stack = cardsCopy;
+for (let x = 0; x < cardsCopy.length; x++) {
+  let tempIndex = Math.floor(Math.random() * cardsCopy.length);
+  let temp = cardsCopy[tempIndex];
+  cardsCopy = cardsCopy.filter((el, i) => i != tempIndex);
+  temp.visible = false;
+  deck.stack.unshift(temp);
+}
 
 /*
 // console.log(
@@ -451,11 +466,14 @@ while (userPlay != '') {
       let fromStack = stack_List.find((el) => el.name == tempInputSplit[1]);
       let toStack = stack_List.find((el) => el.name == tempInputSplit[2]);
       let ind = Number(tempInputSplit[3]);
-      console.log('From: ', fromStack);
-      console.log('To: ', toStack);
+      console.log('From: ', fromStack.name);
+      console.log('To: ', toStack.name);
       console.log('Index: ', ind);
 
       moveCard(fromStack, ind, toStack);
+      break;
+    case 'dC':
+      drawNextCard();
       break;
   }
 
@@ -466,5 +484,6 @@ while (userPlay != '') {
   console.log('Stack 5: \n', stack_5.toString());
   console.log('Stack 6: \n', stack_6.toString());
   console.log('Stack 7: \n', stack_7.toString());
+  console.log('Deck Open: \n', deckOpen.toString());
   userPlay = prompt('What do u want to do? mC-from-to-index || dC : ');
 }
