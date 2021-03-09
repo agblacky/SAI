@@ -147,16 +147,19 @@ let deckOpen = {
 };
 
 function moveCard(oldStack, index, newStack) {
+  console.log('IN MOVE FUNC');
+
   if (gameWonFlag) return;
   if (newStack.name == deck.name || newStack.name == deckOpen.name) return;
   if (oldStack.name == deck.name || (oldStack.name == deckOpen.name && index != 0)) return;
 
   if (
-    oldStack.name != endstack_1.name &&
-    oldStack.name != endstack_2.name &&
-    oldStack.name != endstack_3.name &&
-    oldStack.name != endstack_4.name
+    oldStack.name == endstack_1.name &&
+    oldStack.name == endstack_2.name &&
+    oldStack.name == endstack_3.name &&
+    oldStack.name == endstack_4.name
   ) {
+    console.log('INSIDE OLDSTACK-ENDSTACK-IF');
     if (index != 0) return;
   }
   if (
@@ -165,13 +168,19 @@ function moveCard(oldStack, index, newStack) {
     newStack.name != endstack_3.name &&
     newStack.name != endstack_4.name
   ) {
+    console.log('INSIDE NEWSTACK-ENDSTACK-IF');
+
     if (oldStack.stack[index].visible == false) return;
+    console.log('Flag 1');
+
     if (oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0) return;
     else if (
-      oldStack.stack[index].cardValue + 1 != newStack.stack[index].cardValue &&
+      oldStack.stack[index].cardValue + 1 != newStack.stack[0].cardValue &&
       oldStack.stack[index].cardValue < 13
     )
       return;
+    console.log('Flag 2');
+
     let allowedColor = ['1', '4'];
     switch (oldStack.stack[index].type) {
       case '1' || '4':
@@ -181,8 +190,13 @@ function moveCard(oldStack, index, newStack) {
         allowedColor = ['1', '4'];
         break;
     }
+    console.log('Flag 3');
+
     if (allowedColor.includes(newStack.stack[0].type) == false) return;
+    console.log('ENDE VON NEWSTACK-IF');
   } else {
+    console.log('INSIDE LAST-BIG-ELSE');
+
     if (newStack.stack.length == 0 && oldStack.stack[index].cardValue != 1) return;
     else if (
       oldStack.stack[index].cardValue - 1 != newStack.stack[index].cardValue &&
@@ -196,6 +210,8 @@ function moveCard(oldStack, index, newStack) {
     }
     if (notAllowedFlag) return;
   }
+  console.log('NO EXECPTIONS');
+
   gameStates.push(new GameState());
   if (oldStack.stack.length != 1) oldStack.stack[index - 1].visible = true;
   for (let i = index; i >= 0; i--) {
@@ -405,23 +421,50 @@ console.log('Stack 5: \n', stack_5.toString());
 console.log('Stack 6: \n', stack_6.toString());
 console.log('Stack 7: \n', stack_7.toString());
 
+/* from: name of stack
+  to: name of stack
+  index
+  */
+const stack_List = [
+  stack_1,
+  stack_2,
+  stack_3,
+  stack_4,
+  stack_5,
+  stack_6,
+  stack_7,
+  deck,
+  deckOpen,
+  endstack_1,
+  endstack_2,
+  endstack_3,
+  endstack_4,
+];
 let userPlay = prompt('What do u want to do? mC-from-to-index || dC : ');
 
 while (userPlay != '') {
-  switch (userPlay) {
-    case userPlay.includes('mC'):
-      let temp = userPlay.split('-');
-      switch (temp[1]) {
-        case '1':
-          switch (temp[2]) {
-            case '2':
-              let index = Number(temp[3]);
-              moveCard(1, index, 2);
-              break;
-          }
-          break;
-      }
+  console.log('Inside Loop');
+  let tempInputSplit = userPlay.split('-');
+
+  switch (tempInputSplit[0]) {
+    case 'mC':
+      let fromStack = stack_List.find((el) => el.name == tempInputSplit[1]);
+      let toStack = stack_List.find((el) => el.name == tempInputSplit[2]);
+      let ind = Number(tempInputSplit[3]);
+      console.log('From: ', fromStack);
+      console.log('To: ', toStack);
+      console.log('Index: ', ind);
+
+      moveCard(fromStack, ind, toStack);
       break;
   }
+
+  console.log('Stack 1: \n', stack_1.toString());
+  console.log('Stack 2: \n', stack_2.toString());
+  console.log('Stack 3: \n', stack_3.toString());
+  console.log('Stack 4: \n', stack_4.toString());
+  console.log('Stack 5: \n', stack_5.toString());
+  console.log('Stack 6: \n', stack_6.toString());
+  console.log('Stack 7: \n', stack_7.toString());
   userPlay = prompt('What do u want to do? mC-from-to-index || dC : ');
 }

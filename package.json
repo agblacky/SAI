@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/MaxBlam/SAI/issues"
   },
-  "homepage": "https://github.com/MaxBlam/SAI#readme"
+  "homepage": "https://github.com/MaxBlam/SAI#readme",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
 }
