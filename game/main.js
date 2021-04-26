@@ -126,8 +126,14 @@ function moveCard(oldStack, index, newStack) {
   // console.log(newStack.name);
 
   if (gameWonFlag) return;
-  if (newStack.name == deck.name || newStack.name == deckOpen.name) return;
-  if (oldStack.name == deck.name || (oldStack.name == deckOpen.name && index != 0)) return;
+  if (newStack.name == deck.name || newStack.name == deckOpen.name) {
+    throw 'Oldstack => Deck || DeckOpen';
+    return;
+  }
+  if (oldStack.name == deck.name || (oldStack.name == deckOpen.name && index != 0)) {
+    throw 'Oldstack => Deck || DeckOpen';
+    return;
+  }
 
   if (
     oldStack.name == endstack_1.name &&
@@ -136,7 +142,10 @@ function moveCard(oldStack, index, newStack) {
     oldStack.name == endstack_4.name
   ) {
     // console.log('INSIDE OLDSTACK-ENDSTACK-IF');
-    if (index != 0) return;
+    if (index != 0) {
+      throw 'oldstack == Endstack_X && Index != 0';
+      return;
+    }
   }
   if (
     newStack.name != endstack_1.name &&
@@ -146,14 +155,22 @@ function moveCard(oldStack, index, newStack) {
   ) {
     // console.log('INSIDE NEWSTACK-ENDSTACK-IF');
 
-    if (oldStack.stack[index].visible == false) return;
+    if (oldStack.stack[index].visible == false) {
+      throw 'newstack => Endstack_X && Visible == false';
+      return;
+    }
     // console.log('Flag 1');
 
     // console.log('IF 1: ', oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0);
     // console.log('IF 2: ', Number(oldStack.stack[index].cardValue) + 1 != newStack.stack[0].cardValue);
 
-    if (oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0) return;
-    else if (Number(oldStack.stack[index].cardValue) + 1 != newStack.stack[0].cardValue) return;
+    if (oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0) {
+      throw 'newstack => Endstack_X && oS.cardvalue == 13 && nS.length != 0';
+      return;
+    } else if ((Number(oldStack.stack[index].cardValue) + 1) != newStack.stack[0].cardValue) {
+      throw 'newstack => Endstack_X && oS.cardvalue+1 != nS.cardValue';
+      return;
+    }
     // console.log('Flag 2');
 
     let allowedColor = ['1', '4'];
@@ -167,23 +184,33 @@ function moveCard(oldStack, index, newStack) {
     }
     // console.log('Flag 3');
 
-    if (allowedColor.includes(newStack.stack[0].type) == false) return;
+    if (allowedColor.includes(newStack.stack[0].type) == false) {
+      throw 'newstack => Endstack_X && allowedColor == false';
+      return;
+    }
     // console.log('ENDE VON NEWSTACK-IF');
   } else {
     // console.log('INSIDE LAST-BIG-ELSE');
 
-    if (newStack.stack.length == 0 && oldStack.stack[index].cardValue != 1) return;
-    else if (
+    if (newStack.stack.length == 0 && oldStack.stack[index].cardValue != 1) {
+      throw 'newstack.length == 0 && oldstack.cardvalue != 1';
+      return;
+    } else if (
       oldStack.stack[index].cardValue - 1 != newStack.stack[index].cardValue &&
       oldStack.stack[index].cardValue > 1
-    )
+    ) {
+      throw 'oS.cardvalue-1 != nS.cardvalue';
       return;
+    }
     let tempType = newStack.name.split('_')[1];
     let notAllowedFlag = false;
     for (let i = index; i >= 0; i--) {
       if (oldStack.stack[i].type != tempType) notAllowedFlag = true;
     }
-    if (notAllowedFlag) return;
+    if (notAllowedFlag) {
+      throw 'notAllowedFlag == true';
+      return;
+    }
   }
   // console.log('NO EXECPTIONS');
 
