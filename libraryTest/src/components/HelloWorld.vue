@@ -57,9 +57,8 @@ export default {
         draggable.drag = false;
       }
     },
-    startdrag(arr) {
+    startdrag() {
       draggable.drag = true;
-      arr.pop();
     },
   },
 
@@ -73,7 +72,7 @@ export default {
 
     this.myArr.push({ name: 'card3', bg_img: './cards/background.png', fg_img: './cards/kreuz/kreuzqueen.png' });
 
-    this.myArr.push({ name: 'card4', bg_img: './cards/background.png', fg_img: './cards/herz/herz5.png' });
+    this.myArr.push({ name: 'card4', bg_img: './cards/background.png', fg_img: './cards/karo/karo9.png' });
 
     this.myArr.push({ name: 'card5', bg_img: './cards/background.png', fg_img: './cards/pik/pikking.png' });
     console.log(this.myArr);
