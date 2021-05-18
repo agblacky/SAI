@@ -8,27 +8,30 @@
       @start="drag = true"
       @end="endDrag"
     >
-      <div v-for="(element, id) in cropimg" :key="id" class="imgdiv">
+      <div v-for="(element, id) in cropimgST1" :key="id" class="imgdiv">
         <img :src="element.fg_img" class="croppedimage" alt="" />
       </div>
 
-      <div v-for="(element, id) in normalimg" :key="id">
+      <div v-for="(element, id) in normalimgST1" :key="id">
         <img :src="element.fg_img" alt="" />
       </div>
     </draggable>
     <draggable
       v-model="myArr2"
       group="people"
-      class="border border-success m-4"
+      class="border border-danger m-4"
       style="min-height: 200px; min-width: 130px"
       @start="drag = true"
       @end="endDrag"
     >
-      <div class="text-white border border-success border-rounded " v-for="element in myArr2" :key="element.id">
-        <img :src="element.fg_img" class="croppedimage" alt="fg" />
+     <div v-for="(element, id) in cropimgST2" :key="id" class="imgdiv">
+        <img :src="element.fg_img" class="croppedimage" alt="" />
+      </div>
+
+      <div v-for="(element, id) in normalimgST2" :key="id">
+        <img :src="element.fg_img" alt="" />
       </div>
     </draggable>
-    <button @click="crop()">Text</button>
   </div>
 </template>
 
@@ -55,6 +58,8 @@ export default {
       if (event.from != event.to) {
         draggable.drag = false;
       }
+      console.log('Arr:', this.myArr);
+      console.log('Arr2:', this.myArr2);
     },
     crop() {
       const image = document.getElementById('card1');
@@ -78,11 +83,17 @@ export default {
     console.log(this.myArr);
   },
   computed: {
-    cropimg() {
+    cropimgST1() {
       return this.myArr.filter((el, id) => id <= this.myArr.length - 2);
     },
-    normalimg() {
+    normalimgST1() {
       return this.myArr.filter((el, id) => id == this.myArr.length - 1);
+    },
+    cropimgST2() {
+      return this.myArr2.filter((el, id) => id <= this.myArr2.length - 2);
+    },
+    normalimgST2() {
+      return this.myArr2.filter((el, id) => id == this.myArr2.length - 1);
     },
   },
   props: {
