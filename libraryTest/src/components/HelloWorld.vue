@@ -70,10 +70,10 @@ export default {
       fg_img: "./cards/herz/_herzass.png",})
 
     this.myArr.push({name: "card2", bg_img: "./cards/background.png",
-      fg_img: "./cards/karo/karo4.png",})
+      fg_img: "./cards/karo/karojack.png",})
 
     this.myArr.push({name: "card3", bg_img: "./cards/background.png",
-      fg_img: "./cards/kreuz/kreuz8.png",})
+      fg_img: "./cards/kreuz/kreuzqueen.png",})
 
     this.myArr.push({name: "card4", bg_img: "./cards/background.png",
       fg_img: "./cards/herz/herz5.png",})
