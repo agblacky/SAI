@@ -1,11 +1,10 @@
 <template>
-  <div class="mx-auto d-flex flex-row align-items-center col-10">
+  <div class="mx-auto d-flex flex-row align-items-top col-10">
     <draggable
-      class="border border-success m-4"
-      style="min-height: 200px; min-width: 130px"
+      class=" m-4 draggg"
       v-model="myArr"
       group="people"
-      @start="drag = true"
+      @start="startdrag"
       @end="endDrag"
     >
       <div v-for="(element, id) in cropimg" :key="id" class="imgdiv">
@@ -17,18 +16,20 @@
       </div>
     </draggable>
     <draggable
+      class=" m-4 draggg"
       v-model="myArr2"
       group="people"
-      class="border border-success m-4"
-      style="min-height: 200px; min-width: 130px"
       @start="drag = true"
       @end="endDrag"
     >
-      <div class="text-white border border-success border-rounded " v-for="element in myArr2" :key="element.id">
-        <img :src="element.fg_img" class="croppedimage" alt="fg" />
+      <div v-for="(element, id) in cropimg2" :key="id" class="imgdiv">
+        <img :src="element.fg_img" class="croppedimage" alt="" />
+      </div>
+
+      <div v-for="(element, id) in normalimg2" :key="id">
+        <img :src="element.fg_img" alt="" />
       </div>
     </draggable>
-    <button @click="crop()">Text</button>
   </div>
 </template>
 
@@ -56,9 +57,8 @@ export default {
         draggable.drag = false;
       }
     },
-    crop() {
-      const image = document.getElementById('card1');
-      console.log(image);
+    startdrag() {
+      draggable.drag = true;
     },
   },
 
@@ -68,11 +68,11 @@ export default {
   created() {
     this.myArr.push({ name: 'card1', bg_img: './cards/background.png', fg_img: './cards/herz/_herzass.png' });
 
-    this.myArr.push({ name: 'card2', bg_img: './cards/background.png', fg_img: './cards/karo/karo4.png' });
+    this.myArr.push({ name: 'card2', bg_img: './cards/background.png', fg_img: './cards/karo/karojack.png' });
 
-    this.myArr.push({ name: 'card3', bg_img: './cards/background.png', fg_img: './cards/kreuz/kreuz8.png' });
+    this.myArr.push({ name: 'card3', bg_img: './cards/background.png', fg_img: './cards/kreuz/kreuzqueen.png' });
 
-    this.myArr.push({ name: 'card4', bg_img: './cards/background.png', fg_img: './cards/herz/herz5.png' });
+    this.myArr.push({ name: 'card4', bg_img: './cards/background.png', fg_img: './cards/karo/karo9.png' });
 
     this.myArr.push({ name: 'card5', bg_img: './cards/background.png', fg_img: './cards/pik/pikking.png' });
     console.log(this.myArr);
@@ -84,7 +84,14 @@ export default {
     normalimg() {
       return this.myArr.filter((el, id) => id == this.myArr.length - 1);
     },
+    cropimg2() {
+      return this.myArr2.filter((el, id) => id <= this.myArr2.length - 2);
+    },
+    normalimg2() {
+      return this.myArr2.filter((el, id) => id == this.myArr2.length - 1);
+    },
   },
+
   props: {
     msg: String,
   },
@@ -93,6 +100,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.draggg {
+  min-width: 130px;
+  min-height: 20px; 
+  background-color: #00000020;
+  
+}
 .croppedimage {
   object-fit: cover;
   height: 42px;
