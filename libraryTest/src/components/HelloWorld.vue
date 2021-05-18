@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto d-flex flex-row align-items-center col-10">
-    <draggable class="border border-danger m-4" style="" v-model="myArr" group="people" @start="drag = true" @end="endDrag">
+    <draggable class="border border-danger m-4" style="" v-model="myArr" group="people" @start="startdrag" @end="endDrag">
       <div v-for="(element,id) in cropimg" :key="id"  class="imgdiv">
         <img :src="element.fg_img" class="croppedimage"  alt="">
       </div>
@@ -10,17 +10,15 @@
       </div>
 
     </draggable>
-    <draggable
-      v-model="myArr2"
-      group="people"
-      class="border border-success m-4"
-      style="min-height: 200px; min-width: 130px"
-      @start="drag = true"
-      @end="endDrag"
-    >
-      <div class="text-white border border-success border-rounded " v-for="element in myArr2" :key="element.id">
-        <img :src="element.fg_img" class="croppedimage" alt="fg">
+    <draggable class="border border-danger m-4" style="" v-model="myArr2" group="people" @start="drag = true" @end="endDrag">
+      <div v-for="(element,id) in cropimg2" :key="id"  class="imgdiv">
+        <img :src="element.fg_img" class="croppedimage"  alt="">
       </div>
+      
+      <div v-for="(element,id) in normalimg2" :key="id">
+        <img :src="element.fg_img"  alt="">
+      </div>
+
     </draggable>
     <button @click="crop()">Text</button>
   </div>
@@ -29,7 +27,7 @@
 
 <script>
 import draggable from 'vuedraggable';
-import Cropper from 'cropperjs';
+
 
 
 
@@ -55,22 +53,13 @@ export default {
         draggable.drag = false;
       }
     },
-    crop(){
-      const image = document.getElementById('card1');
-console.log(image);
-new Cropper(image, {
-  aspectRatio: 130/50,
-  crop(event) {
-    console.log(event.detail.x);
-    console.log(event.detail.y);
-    console.log(event.detail.width);
-    console.log(event.detail.height);
-    console.log(event.detail.rotate);
-    console.log(event.detail.scaleX);
-    console.log(event.detail.scaleY);
-  },
-});
+    startdrag(arr){
+      draggable.drag = true;
+      arr.pop();
+      
+
     }
+    
   },
 
   components: {
@@ -102,8 +91,16 @@ new Cropper(image, {
     },
     normalimg(){
       return this.myArr.filter((el,id) => id == this.myArr.length -1) 
+    },
+    cropimg2() {
+
+      return this.myArr2.filter((el,id) => id <= this.myArr2.length -2) 
+    },
+    normalimg2(){
+      return this.myArr2.filter((el,id) => id == this.myArr2.length -1) 
     }
   },
+
   props: {
     msg: String,
   },
