@@ -58,5 +58,4 @@ function returnScenario(id) {
   return result;
 }
 
-console.log(returnScenario(1));
-module.exports = {};
+module.exports = { returnScenario };
