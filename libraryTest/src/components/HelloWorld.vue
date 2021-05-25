@@ -70,10 +70,6 @@ export default {
     };
   },
   methods: {
-    Obj(a) {
-      this.name = 'This is : ' + a;
-      this.id = Math.sin(a);
-    },
     endDrag(event) {
       let oldStack = event.from.id;
       let newStack = event.to.id;
