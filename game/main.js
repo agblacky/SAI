@@ -209,7 +209,7 @@ function moveCard(oldStack, index, newStack) {
     if (oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0) {
       throw 'newstack !=> Endstack_X && oS.cardvalue == 13 && nS.length != 0';
     }
-    if (oldStack.stack[index].cardValue + 1 == newStack.stack[0].cardValue) {
+    if (oldStack.stack[index].cardValue + 1 != newStack.stack[0].cardValue) {
       throw `newstack !=> Endstack_X && oS.cardvalue+1 != nS.cardValue::::: Card Old: ${oldStack.stack[index].cardValue} --- Card New: ${newStack.stack[0].cardValue}`;
     }
     // console.log('Flag 2');
@@ -254,7 +254,7 @@ function moveCard(oldStack, index, newStack) {
   gameStates.stack.push(new GameState());
   // console.log(oldStack.stack[index + 1]);
   if (oldStack.stack.length != 1) oldStack.stack[index + 1].visible = true;
-  
+
   for (let i = index; i >= 0; i--) {
     newStack.stack.unshift(oldStack.stack[i]);
   }

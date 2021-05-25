@@ -8,12 +8,12 @@
       @start="startdrag"
       @end="endDrag"
     >
-      <div v-for="element in cropimg" :key="element.cardValue + ' ' + element.typ" class="imgdiv">
+      <div v-for="element in cropimg" :key="(element.cardValue / element.type) * 100" class="imgdiv">
         <img :src="element.fg_img" class="croppedimage" />
         <p>{{ element.cardValue }} || {{ element.type }}</p>
       </div>
 
-      <div v-for="element in normalimg" class="imgdiv" :key="element.cardValue + ' ' + element.typ">
+      <div v-for="element in normalimg" class="imgdiv" :key="(element.cardValue / element.type) * 100">
         <img :src="element.fg_img" />
         <p>{{ element.cardValue }} || {{ element.type }}</p>
       </div>
@@ -26,12 +26,12 @@
       @start="drag = true"
       @end="endDrag"
     >
-      <div v-for="element in cropimg2" :key="element.cardValue + ' ' + element.typ" class="imgdiv">
+      <div v-for="element in cropimg2" :key="(element.cardValue / element.type) * 100" class="imgdiv">
         <img :src="element.fg_img" class="croppedimage" />
         <p>{{ element.cardValue }} || {{ element.type }}</p>
       </div>
 
-      <div v-for="element in normalimg2" class="imgdiv" :key="element.cardValue + ' ' + element.typ">
+      <div v-for="element in normalimg2" class="imgdiv" :key="(element.cardValue / element.type) * 100">
         <img :src="element.fg_img" />
         <p>{{ element.cardValue }} || {{ element.type }}</p>
       </div>
@@ -44,12 +44,12 @@
       @start="drag = true"
       @end="endDrag"
     >
-      <div v-for="element in cropimg3" :key="element.cardValue + ' ' + element.typ" class="imgdiv">
+      <div v-for="element in cropimg3" :key="(element.cardValue / element.type) * 100" class="imgdiv">
         <img :src="element.fg_img" class="croppedimage" />
         <p>{{ element.cardValue }} || {{ element.type }}</p>
       </div>
 
-      <div v-for="element in normalimg3" class="imgdiv" :key="element.cardValue + ' ' + element.typ">
+      <div v-for="element in normalimg3" class="imgdiv" :key="(element.cardValue / element.type) * 100">
         <img :src="element.fg_img" />
         <p>{{ element.cardValue }} || {{ element.type }}</p>
       </div>
@@ -104,11 +104,13 @@ export default {
         console.log('After Timeout');
         console.log('OBJECT:ASSIGN:');
         console.log(Object.assign(this.myArr, gamelogik.stack_1.stack));
-
+        this.myArr = [];
+        this.myArr2 = [];
+        this.myArr3 = [];
         Object.assign(this.myArr, gamelogik.stack_1.stack).reverse();
         Object.assign(this.myArr2, gamelogik.stack_2.stack).reverse();
         Object.assign(this.myArr3, gamelogik.stack_3.stack).reverse();
-      }, 200);
+      }, 50);
       console.log('STACK 1: ', this.myArr);
       console.log('STACK 2: ', this.myArr2);
       console.log('STACK 3: ', this.myArr3);
