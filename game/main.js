@@ -1,5 +1,6 @@
-let { cards } = require('./cards.json');
+let { cards } = require('../libraryTest/src/assets/cards.json');
 let prompt = require('prompt-sync')();
+const { returnScenario } = require('./scenarioLoader');
 
 let cardsCopy = cards;
 // for (let i of cards) {
@@ -30,49 +31,63 @@ let stack_1 = {
   name: 'stack_1',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 let stack_2 = {
   name: 'stack_2',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 let stack_3 = {
   name: 'stack_3',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 let stack_4 = {
   name: 'stack_4',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 let stack_5 = {
   name: 'stack_5',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 let stack_6 = {
   name: 'stack_6',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 let stack_7 = {
   name: 'stack_7',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 
@@ -80,28 +95,36 @@ let endstack_1 = {
   name: 'endstack_1',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 let endstack_2 = {
   name: 'endstack_2',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 let endstack_3 = {
   name: 'endstack_3',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 let endstack_4 = {
   name: 'endstack_4',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 
@@ -109,14 +132,18 @@ let deck = {
   name: 'deck',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 let deckOpen = {
   name: 'deckOpen',
   stack: [],
   toString: function () {
-    return this.stack.filter((el) => el.visible == true).map((el) => ({ cardValue: el.cardValue, type: el.type }));
+    return this.stack
+      .filter((el) => el.visible == true)
+      .map((el) => ({ cardValue: el.cardValue, type: el.type }));
   },
 };
 
@@ -167,7 +194,7 @@ function moveCard(oldStack, index, newStack) {
     if (oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0) {
       throw 'newstack => Endstack_X && oS.cardvalue == 13 && nS.length != 0';
       return;
-    } else if ((Number(oldStack.stack[index].cardValue) + 1) != newStack.stack[0].cardValue) {
+    } else if (Number(oldStack.stack[index].cardValue) + 1 != newStack.stack[0].cardValue) {
       throw 'newstack => Endstack_X && oS.cardvalue+1 != nS.cardValue';
       return;
     }
@@ -367,7 +394,6 @@ function setUpAlgo() {
     deck.stack.unshift(temp);
   }
 }
-setUpAlgo();
 /*
 // // console.log(
 //   stack_1.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
@@ -440,6 +466,18 @@ setUpAlgo();
   to: name of stack
   index
   */
+function setUpScene(SceneNumber) {
+  let funcObject = returnScenario(SceneNumber);
+  deck.stack = funcObject.deck;
+  stack_1.stack = funcObject.stack_1;
+  stack_2.stack = funcObject.stack_2;
+  stack_3.stack = funcObject.stack_3;
+  stack_4.stack = funcObject.stack_4;
+  stack_5.stack = funcObject.stack_5;
+  stack_6.stack = funcObject.stack_6;
+  stack_7.stack = funcObject.stack_7;
+}
+
 const stack_List = [
   stack_1,
   stack_2,
@@ -477,14 +515,14 @@ const stack_List = [
 //       break;
 //   }
 
-//   // console.log('Stack 1: \n', stack_1.toString());
-//   // console.log('Stack 2: \n', stack_2.toString());
-//   // console.log('Stack 3: \n', stack_3.toString());
-//   // console.log('Stack 4: \n', stack_4.toString());
-//   // console.log('Stack 5: \n', stack_5.toString());
-//   // console.log('Stack 6: \n', stack_6.toString());
-//   // console.log('Stack 7: \n', stack_7.toString());
-//   // console.log('Deck Open: \n', deckOpen.toString());
+console.log('Stack 1: \n', stack_1.toString());
+console.log('Stack 2: \n', stack_2.toString());
+console.log('Stack 3: \n', stack_3.toString());
+console.log('Stack 4: \n', stack_4.toString());
+console.log('Stack 5: \n', stack_5.toString());
+console.log('Stack 6: \n', stack_6.toString());
+console.log('Stack 7: \n', stack_7.toString());
+console.log('Deck Open: \n', deckOpen.toString());
 //   userPlay = prompt('What do u want to do? mC-from-to-index || dC : ');
 // }
 
@@ -507,4 +545,5 @@ module.exports = {
   gameStates,
   setUpAlgo,
   stack_List,
+  setUpScene,
 };

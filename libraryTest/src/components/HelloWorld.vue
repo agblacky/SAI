@@ -1,32 +1,20 @@
 <template>
   <div class="mx-auto d-flex flex-row align-items-top col-10">
-    <draggable
-      class=" m-4 draggg"
-      v-model="myArr"
-      group="people"
-      @start="startdrag"
-      @end="endDrag"
-    >
+    <draggable class=" m-4 draggg" v-model="myArr" group="people" @start="startdrag" @end="endDrag">
       <div v-for="(element, id) in cropimg" :key="id" class="imgdiv">
         <img :src="element.fg_img" class="croppedimage" alt="" />
       </div>
 
-      <div v-for="(element, id) in normalimg" :key="id">
+      <div v-for="(element, id) in normalimg" class="imgdiv" :key="id">
         <img :src="element.fg_img" alt="" />
       </div>
     </draggable>
-    <draggable
-      class=" m-4 draggg"
-      v-model="myArr2"
-      group="people"
-      @start="drag = true"
-      @end="endDrag"
-    >
+    <draggable class=" m-4 draggg" v-model="myArr2" group="people" @start="drag = true" @end="endDrag">
       <div v-for="(element, id) in cropimg2" :key="id" class="imgdiv">
         <img :src="element.fg_img" class="croppedimage" alt="" />
       </div>
 
-      <div v-for="(element, id) in normalimg2" :key="id">
+      <div v-for="(element, id) in normalimg2" class="imgdiv" :key="id">
         <img :src="element.fg_img" alt="" />
       </div>
     </draggable>
@@ -67,6 +55,10 @@ export default {
   },
   created() {
     this.myArr.push({ name: 'card1', bg_img: './cards/background.png', fg_img: './cards/herz/_herzass.png' });
+    this.myArr.push({ name: 'card1', bg_img: './cards/background.png', fg_img: './cards/herz/herz10.png' });
+    this.myArr.push({ name: 'card1', bg_img: './cards/background.png', fg_img: './cards/herz/herz7.png' });
+    this.myArr.push({ name: 'card1', bg_img: './cards/background.png', fg_img: './cards/herz/herz3.png' });
+    this.myArr.push({ name: 'card1', bg_img: './cards/background.png', fg_img: './cards/herz/herz9.png' });
 
     this.myArr.push({ name: 'card2', bg_img: './cards/background.png', fg_img: './cards/karo/karojack.png' });
 
@@ -102,9 +94,8 @@ export default {
 <style scoped>
 .draggg {
   min-width: 130px;
-  min-height: 20px; 
+  min-height: 20px;
   background-color: #00000020;
-  
 }
 .croppedimage {
   object-fit: cover;
@@ -113,6 +104,7 @@ export default {
   object-position: 0 0px;
 }
 img {
+  max-width: 130px;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges; /* Firefox */
   image-rendering: -o-crisp-edges; /* Opera */
@@ -123,5 +115,6 @@ img {
 .imgdiv {
   background-color: #fff6d6;
   outline: #d6c29c solid 2px;
+  max-width: 130px;
 }
 </style>
