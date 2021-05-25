@@ -19,6 +19,7 @@
   "homepage": "https://github.com/MaxBlam/SAI#readme",
   "dependencies": {
     "edit-json-file": "^1.6.0",
+    "eslint": "^7.27.0",
     "prompt-sync": "^4.2.0"
   }
 }

@@ -1,21 +1,57 @@
 <template>
   <div class="mx-auto d-flex flex-row align-items-top col-10">
-    <draggable class=" m-4 draggg" v-model="myArr" group="people" @start="startdrag" @end="endDrag">
-      <div v-for="(element, id) in cropimg" :key="id" class="imgdiv">
-        <img :src="element.fg_img" class="croppedimage" alt="" />
+    <draggable
+      id="stack_1"
+      class=" m-4 draggg"
+      v-model="myArr"
+      group="people"
+      @start="startdrag"
+      @end="endDrag"
+    >
+      <div v-for="element in cropimg" :key="element.cardValue + ' ' + element.typ" class="imgdiv">
+        <img :src="element.fg_img" class="croppedimage" />
+        <p>{{ element.cardValue }} || {{ element.type }}</p>
       </div>
 
-      <div v-for="(element, id) in normalimg" class="imgdiv" :key="id">
-        <img :src="element.fg_img" alt="" />
+      <div v-for="element in normalimg" class="imgdiv" :key="element.cardValue + ' ' + element.typ">
+        <img :src="element.fg_img" />
+        <p>{{ element.cardValue }} || {{ element.type }}</p>
       </div>
     </draggable>
-    <draggable class=" m-4 draggg" v-model="myArr2" group="people" @start="drag = true" @end="endDrag">
-      <div v-for="(element, id) in cropimg2" :key="id" class="imgdiv">
-        <img :src="element.fg_img" class="croppedimage" alt="" />
+    <draggable
+      id="stack_2"
+      class=" m-4 draggg"
+      v-model="myArr2"
+      group="people"
+      @start="drag = true"
+      @end="endDrag"
+    >
+      <div v-for="element in cropimg2" :key="element.cardValue + ' ' + element.typ" class="imgdiv">
+        <img :src="element.fg_img" class="croppedimage" />
+        <p>{{ element.cardValue }} || {{ element.type }}</p>
       </div>
 
-      <div v-for="(element, id) in normalimg2" class="imgdiv" :key="id">
-        <img :src="element.fg_img" alt="" />
+      <div v-for="element in normalimg2" class="imgdiv" :key="element.cardValue + ' ' + element.typ">
+        <img :src="element.fg_img" />
+        <p>{{ element.cardValue }} || {{ element.type }}</p>
+      </div>
+    </draggable>
+    <draggable
+      id="stack_3"
+      class=" m-4 draggg"
+      v-model="myArr3"
+      group="people"
+      @start="drag = true"
+      @end="endDrag"
+    >
+      <div v-for="element in cropimg3" :key="element.cardValue + ' ' + element.typ" class="imgdiv">
+        <img :src="element.fg_img" class="croppedimage" />
+        <p>{{ element.cardValue }} || {{ element.type }}</p>
+      </div>
+
+      <div v-for="element in normalimg3" class="imgdiv" :key="element.cardValue + ' ' + element.typ">
+        <img :src="element.fg_img" />
+        <p>{{ element.cardValue }} || {{ element.type }}</p>
       </div>
     </draggable>
   </div>
@@ -23,13 +59,14 @@
 
 <script>
 import draggable from 'vuedraggable';
-
+import gamelogik from '../../../game/main';
 export default {
   name: 'HelloWorld',
   data() {
     return {
       myArr: [],
       myArr2: [],
+      myArr3: [],
     };
   },
   methods: {
@@ -38,15 +75,47 @@ export default {
       this.id = Math.sin(a);
     },
     endDrag(event) {
+      let oldStack = event.from.id;
+      let newStack = event.to.id;
       console.clear();
       console.log('From:', event.from);
       console.log('To:', event.to);
-      if (event.from != event.to) {
+
+      console.log(oldStack);
+      console.log(newStack);
+      if (oldStack != newStack) {
         draggable.drag = false;
+        console.log('Before Timeout');
+        try {
+          gamelogik.moveCard(gamelogik[oldStack], 0, gamelogik[newStack]);
+        } catch (ex) {
+          console.log('###################');
+          console.log(ex);
+          console.log('###################');
+        }
       }
+      this.getStacks();
     },
     startdrag() {
       draggable.drag = true;
+    },
+    getStacks() {
+      setTimeout(() => {
+        console.log('After Timeout');
+        console.log('OBJECT:ASSIGN:');
+        console.log(Object.assign(this.myArr, gamelogik.stack_1.stack));
+
+        Object.assign(this.myArr, gamelogik.stack_1.stack).reverse();
+        Object.assign(this.myArr2, gamelogik.stack_2.stack).reverse();
+        Object.assign(this.myArr3, gamelogik.stack_3.stack).reverse();
+      }, 200);
+      console.log('STACK 1: ', this.myArr);
+      console.log('STACK 2: ', this.myArr2);
+      console.log('STACK 3: ', this.myArr3);
+
+      console.log('STACK 1 - GAME: ', gamelogik.stack_1.stack);
+      console.log('STACK 2 - GAME: ', gamelogik.stack_2.stack);
+      console.log('STACK 3 - GAME: ', gamelogik.stack_3.stack);
     },
   },
 
@@ -54,20 +123,8 @@ export default {
     draggable,
   },
   created() {
-    this.myArr.push({ name: 'card1', bg_img: './cards/background.png', fg_img: './cards/herz/_herzass.png' });
-    this.myArr.push({ name: 'card1', bg_img: './cards/background.png', fg_img: './cards/herz/herz10.png' });
-    this.myArr.push({ name: 'card1', bg_img: './cards/background.png', fg_img: './cards/herz/herz7.png' });
-    this.myArr.push({ name: 'card1', bg_img: './cards/background.png', fg_img: './cards/herz/herz3.png' });
-    this.myArr.push({ name: 'card1', bg_img: './cards/background.png', fg_img: './cards/herz/herz9.png' });
-
-    this.myArr.push({ name: 'card2', bg_img: './cards/background.png', fg_img: './cards/karo/karojack.png' });
-
-    this.myArr.push({ name: 'card3', bg_img: './cards/background.png', fg_img: './cards/kreuz/kreuzqueen.png' });
-
-    this.myArr.push({ name: 'card4', bg_img: './cards/background.png', fg_img: './cards/karo/karo9.png' });
-
-    this.myArr.push({ name: 'card5', bg_img: './cards/background.png', fg_img: './cards/pik/pikking.png' });
-    console.log(this.myArr);
+    gamelogik.setUpScene(1);
+    this.getStacks();
   },
   computed: {
     cropimg() {
@@ -81,6 +138,12 @@ export default {
     },
     normalimg2() {
       return this.myArr2.filter((el, id) => id == this.myArr2.length - 1);
+    },
+    cropimg3() {
+      return this.myArr3.filter((el, id) => id <= this.myArr3.length - 2);
+    },
+    normalimg3() {
+      return this.myArr3.filter((el, id) => id == this.myArr3.length - 1);
     },
   },
 

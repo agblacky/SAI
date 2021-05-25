@@ -1,5 +1,5 @@
 let { cards } = require('../libraryTest/src/assets/cards.json');
-let prompt = require('prompt-sync')();
+//let prompt = require('prompt-sync')();
 const { returnScenario } = require('./scenarioLoader');
 
 let cardsCopy = cards;
@@ -147,19 +147,35 @@ let deckOpen = {
   },
 };
 
+const stack_List = [
+  stack_1,
+  stack_2,
+  stack_3,
+  stack_4,
+  stack_5,
+  stack_6,
+  stack_7,
+  deck,
+  deckOpen,
+  endstack_1,
+  endstack_2,
+  endstack_3,
+  endstack_4,
+];
+
 function moveCard(oldStack, index, newStack) {
   // console.log('IN MOVE FUNC');
   // console.log(oldStack.name);
   // console.log(newStack.name);
-
+  for (let x of stack_3.stack) {
+    console.log('X--S: ', x.cardValue);
+  }
   if (gameWonFlag) return;
   if (newStack.name == deck.name || newStack.name == deckOpen.name) {
     throw 'Oldstack => Deck || DeckOpen';
-    return;
   }
   if (oldStack.name == deck.name || (oldStack.name == deckOpen.name && index != 0)) {
     throw 'Oldstack => Deck || DeckOpen';
-    return;
   }
 
   if (
@@ -171,7 +187,6 @@ function moveCard(oldStack, index, newStack) {
     // console.log('INSIDE OLDSTACK-ENDSTACK-IF');
     if (index != 0) {
       throw 'oldstack == Endstack_X && Index != 0';
-      return;
     }
   }
   if (
@@ -181,10 +196,10 @@ function moveCard(oldStack, index, newStack) {
     newStack.name != endstack_4.name
   ) {
     // console.log('INSIDE NEWSTACK-ENDSTACK-IF');
-
+    console.log(stack_2.stack);
+    console.log(stack_3.stack);
     if (oldStack.stack[index].visible == false) {
-      throw 'newstack => Endstack_X && Visible == false';
-      return;
+      throw 'newstack !=> Endstack_X && Visible == false';
     }
     // console.log('Flag 1');
 
@@ -192,28 +207,26 @@ function moveCard(oldStack, index, newStack) {
     // console.log('IF 2: ', Number(oldStack.stack[index].cardValue) + 1 != newStack.stack[0].cardValue);
 
     if (oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0) {
-      throw 'newstack => Endstack_X && oS.cardvalue == 13 && nS.length != 0';
-      return;
-    } else if (Number(oldStack.stack[index].cardValue) + 1 != newStack.stack[0].cardValue) {
-      throw 'newstack => Endstack_X && oS.cardvalue+1 != nS.cardValue';
-      return;
+      throw 'newstack !=> Endstack_X && oS.cardvalue == 13 && nS.length != 0';
+    }
+    if (oldStack.stack[index].cardValue + 1 == newStack.stack[0].cardValue) {
+      throw `newstack !=> Endstack_X && oS.cardvalue+1 != nS.cardValue::::: Card Old: ${oldStack.stack[index].cardValue} --- Card New: ${newStack.stack[0].cardValue}`;
     }
     // console.log('Flag 2');
 
-    let allowedColor = ['1', '4'];
+    let allowedColor = [1, 4];
     switch (oldStack.stack[index].type) {
-      case '1' || '4':
-        allowedColor = ['2', '3'];
+      case 1 || 4:
+        allowedColor = [2, 3];
         break;
-      case '2' || '3':
-        allowedColor = ['1', '4'];
+      case 2 || 3:
+        allowedColor = [1, 4];
         break;
     }
     // console.log('Flag 3');
 
-    if (allowedColor.includes(newStack.stack[0].type) == false) {
-      throw 'newstack => Endstack_X && allowedColor == false';
-      return;
+    if (!allowedColor.includes(newStack.stack[0].type)) {
+      throw `newstack !=> Endstack_X && allowedColor == false::::: Card Color: ${oldStack.stack[index].type}|| Allowed Color: ${allowedColor}|| NewStack Card Color: ${newStack.stack[0].type}`;
     }
     // console.log('ENDE VON NEWSTACK-IF');
   } else {
@@ -221,13 +234,11 @@ function moveCard(oldStack, index, newStack) {
 
     if (newStack.stack.length == 0 && oldStack.stack[index].cardValue != 1) {
       throw 'newstack.length == 0 && oldstack.cardvalue != 1';
-      return;
     } else if (
       oldStack.stack[index].cardValue - 1 != newStack.stack[index].cardValue &&
       oldStack.stack[index].cardValue > 1
     ) {
       throw 'oS.cardvalue-1 != nS.cardvalue';
-      return;
     }
     let tempType = newStack.name.split('_')[1];
     let notAllowedFlag = false;
@@ -236,7 +247,6 @@ function moveCard(oldStack, index, newStack) {
     }
     if (notAllowedFlag) {
       throw 'notAllowedFlag == true';
-      return;
     }
   }
   // console.log('NO EXECPTIONS');
@@ -244,6 +254,7 @@ function moveCard(oldStack, index, newStack) {
   gameStates.stack.push(new GameState());
   // console.log(oldStack.stack[index + 1]);
   if (oldStack.stack.length != 1) oldStack.stack[index + 1].visible = true;
+  
   for (let i = index; i >= 0; i--) {
     newStack.stack.unshift(oldStack.stack[i]);
   }
@@ -469,62 +480,50 @@ function setUpAlgo() {
 function setUpScene(SceneNumber) {
   let funcObject = returnScenario(SceneNumber);
   deck.stack = funcObject.deck;
-  stack_1.stack = funcObject.stack_1;
-  stack_2.stack = funcObject.stack_2;
-  stack_3.stack = funcObject.stack_3;
-  stack_4.stack = funcObject.stack_4;
-  stack_5.stack = funcObject.stack_5;
-  stack_6.stack = funcObject.stack_6;
-  stack_7.stack = funcObject.stack_7;
+  let temps1 = [];
+  let temps2 = [];
+  let temps3 = [];
+  let temps4 = [];
+  let temps5 = [];
+  let temps6 = [];
+  let temps7 = [];
+  for (let x = funcObject.stack_1.length - 1; x >= 0; x--) {
+    temps1.push(funcObject.stack_1[x]);
+  }
+  for (let x = funcObject.stack_2.length - 1; x >= 0; x--) {
+    temps2.push(funcObject.stack_2[x]);
+  }
+  for (let x = funcObject.stack_3.length - 1; x >= 0; x--) {
+    temps3.push(funcObject.stack_3[x]);
+  }
+  for (let x = funcObject.stack_4.length - 1; x >= 0; x--) {
+    temps4.push(funcObject.stack_4[x]);
+  }
+  for (let x = funcObject.stack_5.length - 1; x >= 0; x--) {
+    temps5.push(funcObject.stack_5[x]);
+  }
+  for (let x = funcObject.stack_6.length - 1; x >= 0; x--) {
+    temps6.push(funcObject.stack_6[x]);
+  }
+  for (let x = funcObject.stack_7.length - 1; x >= 0; x--) {
+    temps7.push(funcObject.stack_7[x]);
+  }
+
+  for (let x of temps3) {
+    console.log('X: ', x);
+  }
+
+  stack_1.stack = temps1;
+  stack_2.stack = temps2;
+  stack_3.stack = temps3;
+  stack_4.stack = temps4;
+  stack_5.stack = temps5;
+  stack_6.stack = temps6;
+  stack_7.stack = temps7;
+  for (let x of stack_3.stack) {
+    console.log('X--A: ', x);
+  }
 }
-
-const stack_List = [
-  stack_1,
-  stack_2,
-  stack_3,
-  stack_4,
-  stack_5,
-  stack_6,
-  stack_7,
-  deck,
-  deckOpen,
-  endstack_1,
-  endstack_2,
-  endstack_3,
-  endstack_4,
-];
-// let userPlay = prompt('What do u want to do? mC-from-to-index || dC : ');
-
-// while (userPlay != '') {
-//   // console.log('Inside Loop');
-//   let tempInputSplit = userPlay.split('-');
-
-//   switch (tempInputSplit[0]) {
-//     case 'mC':
-//       let fromStack = stack_List.find((el) => el.name == tempInputSplit[1]);
-//       let toStack = stack_List.find((el) => el.name == tempInputSplit[2]);
-//       let ind = Number(tempInputSplit[3]);
-//       // console.log('From: ', fromStack.name);
-//       // console.log('To: ', toStack.name);
-//       // console.log('Index: ', ind);
-
-//       moveCard(fromStack, ind, toStack);
-//       break;
-//     case 'dC':
-//       drawNextCard();
-//       break;
-//   }
-
-console.log('Stack 1: \n', stack_1.toString());
-console.log('Stack 2: \n', stack_2.toString());
-console.log('Stack 3: \n', stack_3.toString());
-console.log('Stack 4: \n', stack_4.toString());
-console.log('Stack 5: \n', stack_5.toString());
-console.log('Stack 6: \n', stack_6.toString());
-console.log('Stack 7: \n', stack_7.toString());
-console.log('Deck Open: \n', deckOpen.toString());
-//   userPlay = prompt('What do u want to do? mC-from-to-index || dC : ');
-// }
 
 module.exports = {
   stack_1,
