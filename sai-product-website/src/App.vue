@@ -1,38 +1,45 @@
-<template>
-  <v-app>
+<template style="overflow-y: hidden">
+  <v-app style="max-height: 100vh; overflow-y: hidden">
+    <v-card class="overflow-hidden" style="height: 100em">
     <v-app-bar
-      app
-      color="primary"
+      absolute
+      color="#0000"
       dark
+      shrink-on-scroll
+      src="./assets/cards.jpeg"
+      scroll-target="#scrolling-techniques-2"
     >
-      <div class="d-flex align-center">
+      <template v-slot:img="{ props }">
         <v-img
-          alt="SAI Logo"
-          class="shrink mr-2"
-          contain
-          src="/assets/logo.png"
-          transition="scale-transition"
-          width="40"
-        />
+          v-bind="props"
+          gradient="to top right, rgba(0,0,0,.5), rgba(0,0,0,.8)"
+        ></v-img>
+      </template>
 
-        
-      </div>
+      
 
-      <v-spacer></v-spacer>
+      <v-app-bar-title>SAI</v-app-bar-title>
 
-      <v-btn
-        href="GAMEURL"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Play the game</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      
+
+      
     </v-app-bar>
+    <v-sheet
+      id="scrolling-techniques-2"
+      class="overflow-y-auto"
+      max-height="600px"
+    >
+      <v-container style="height: 1080px">
 
-    <v-main>
+
+        <v-main>
       <router-view/>
     </v-main>
+      </v-container>
+    </v-sheet>
+  </v-card>
+
+    
   </v-app>
 </template>
 
