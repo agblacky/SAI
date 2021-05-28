@@ -1,7 +1,9 @@
 <template>
-  <Anmerkungen />
+  
+  <div><Anmerkungen /></div>
+  
 </template>
-
+ 
 <script>
   import Anmerkungen from '../components/Anmerkungen'
 
