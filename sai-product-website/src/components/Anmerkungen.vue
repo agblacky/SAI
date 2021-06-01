@@ -1,23 +1,27 @@
 <template>
-<div>
-    <v-container>
-        
+  <div>
+    <v-container fluid>
+      <v-row>
+        <v-col
+          ><v-img
+            src="../assets/logo.png"
+            style="width: 500px;"
+            class="mx-auto"
+          ></v-img>
+          <p class="text-center">The simple solitaire AI</p>
+        </v-col>
+      </v-row>
     </v-container>
-    <v-img src="../assets/logo.png" style="width: 500px; " class="mx-auto " ></v-img>
-
-
-
-</div>
-    
+  </div>
 </template>
-
 
 <script>
 export default {
-    data() {
-        return {
-            opacity: 100,
-        }
-    },
-}
+  data() {
+    return {
+      show: true,
+    };
+  },
+  methods: {},
+};
 </script>
