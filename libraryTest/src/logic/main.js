@@ -1,5 +1,5 @@
 let { cards } = require('../libraryTest/src/assets/cards.json');
-let prompt = require('prompt-sync')();
+//let prompt = require('prompt-sync')();
 const { returnScenario } = require('./scenarioLoader');
 
 let cardsCopy = cards;
@@ -93,7 +93,6 @@ let stack_7 = {
 
 let endstack_1 = {
   name: 'endstack_1',
-  type: '1',
   stack: [],
   toString: function () {
     return this.stack
@@ -103,7 +102,6 @@ let endstack_1 = {
 };
 let endstack_2 = {
   name: 'endstack_2',
-  type: '2',
   stack: [],
   toString: function () {
     return this.stack
@@ -113,8 +111,6 @@ let endstack_2 = {
 };
 let endstack_3 = {
   name: 'endstack_3',
-  type: '3',
-
   stack: [],
   toString: function () {
     return this.stack
@@ -124,8 +120,6 @@ let endstack_3 = {
 };
 let endstack_4 = {
   name: 'endstack_4',
-  type: '4',
-
   stack: [],
   toString: function () {
     return this.stack
@@ -169,12 +163,10 @@ const stack_List = [
   endstack_4,
 ];
 
-function moveCard(oldStackName, index, newStackName) {
+function moveCard(oldStack, index, newStack) {
   // console.log('IN MOVE FUNC');
   // console.log(oldStack.name);
   // console.log(newStack.name);
-  let oldStack = stack_List.find((el) => el.name == oldStackName);
-  let newStack = stack_List.find((el) => el.name == newStackName);
   for (let x of stack_3.stack) {
     console.log('X--S: ', x.cardValue);
   }
@@ -224,16 +216,10 @@ function moveCard(oldStackName, index, newStackName) {
 
     let allowedColor = [1, 4];
     switch (oldStack.stack[index].type) {
-      case 1:
+      case 1 || 4:
         allowedColor = [2, 3];
         break;
-      case 4:
-        allowedColor = [2, 3];
-        break;
-      case 2:
-        allowedColor = [1, 4];
-        break;
-      case 3:
+      case 2 || 3:
         allowedColor = [1, 4];
         break;
     }
@@ -245,22 +231,16 @@ function moveCard(oldStackName, index, newStackName) {
     // console.log('ENDE VON NEWSTACK-IF');
   } else {
     // console.log('INSIDE LAST-BIG-ELSE');
-    console.log('INSIDE NEWSTACK == ENDSTACK');
-    console.log('##########');
-    console.log(oldStack.stack[index]);
-    let tempCard = oldStack.stack[index];
-    console.log('##########');
 
-    if (newStack.stack.length == 0 && tempCard.cardValue != 1) {
+    if (newStack.stack.length == 0 && oldStack.stack[index].cardValue != 1) {
       throw 'newstack.length == 0 && oldstack.cardvalue != 1';
     } else if (
-      newStack.stack.length != 0 &&
       oldStack.stack[index].cardValue - 1 != newStack.stack[index].cardValue &&
       oldStack.stack[index].cardValue > 1
     ) {
       throw 'oS.cardvalue-1 != nS.cardvalue';
     }
-    let tempType = newStack.type;
+    let tempType = newStack.name.split('_')[1];
     let notAllowedFlag = false;
     for (let i = index; i >= 0; i--) {
       if (oldStack.stack[i].type != tempType) notAllowedFlag = true;
@@ -316,6 +296,8 @@ function checkWin() {
 }
 
 function GameState() {
+  console.log('INSIDE GAMESTATE');
+
   this.stack_1 = stack_1;
   this.stack_2 = stack_2;
   this.stack_3 = stack_3;
@@ -423,91 +405,35 @@ function setUpAlgo() {
     deck.stack.unshift(temp);
   }
 }
-setUpScene(1);
-console.log(stack_1.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-console.log('-----------------------------------------------');
-console.log(stack_2.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-console.log('-----------------------------------------------');
-console.log(stack_3.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-console.log('-----------------------------------------------');
-console.log(stack_4.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-console.log('-----------------------------------------------');
-console.log(stack_5.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-console.log('-----------------------------------------------');
-console.log(stack_6.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-console.log('-----------------------------------------------');
-console.log(stack_7.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
+/*
+// // console.log(
+//   stack_1.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+// // console.log('-----------------------------------------------');
+// // console.log(
+//   stack_2.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+// // console.log('-----------------------------------------------');
+// // console.log(
+//   stack_3.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+// // console.log('-----------------------------------------------');
+// // console.log(
+//   stack_4.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+// // console.log('-----------------------------------------------');
+// // console.log(
+//   stack_5.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+// // console.log('-----------------------------------------------');
+// // console.log(
+//   stack_6.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
+// // console.log('-----------------------------------------------');
+// // console.log(
+//   stack_7.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
+// );
 
-let input = prompt('moveCard(o,i,n) | dc: ');
-while (input != '') {
-  if (input == 'dc') {
-    drawNextCard();
-
-    console.log(stack_1.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(stack_2.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(stack_3.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(stack_4.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(stack_5.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(stack_6.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(stack_7.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(
-      deckOpen.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
-    );
-  } else if (input.includes('moveCard')) {
-    let temp = input.split('(')[1].split(')')[0].split(',');
-    try {
-      moveCard(temp[0], Number(temp[1]), temp[2]);
-    } catch (ex) {
-      console.log(ex);
-    }
-    console.log(temp);
-
-    console.log(stack_1.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(stack_2.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(stack_3.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(stack_4.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(stack_5.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(stack_6.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('-----------------------------------------------');
-    console.log(stack_7.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
-    console.log('----------------------DECK OPEN-------------------------');
-    console.log(
-      deckOpen.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
-    );
-    console.log('----------------------Endstack 1-------------------------');
-    console.log(
-      endstack_1.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
-    );
-    console.log('----------------------Endstack 2-------------------------');
-    console.log(
-      endstack_2.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
-    );
-    console.log('----------------------Endstack 3-------------------------');
-    console.log(
-      endstack_3.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
-    );
-    console.log('----------------------Endstack 4-------------------------');
-    console.log(
-      endstack_4.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })),
-    );
-  } else {
-    console.log('Wrong');
-  }
-
-  input = prompt('moveCard(o,i,n) | dc: ');
-}
 // // console.log('###########################################');
 
 // // console.log(stack_1.stack.length);
@@ -538,7 +464,7 @@ while (input != '') {
 // );
 
 // // console.log('Sum of Deck: ', cardsCopy.length);
-
+*/
 // console.log('Stack 1: \n', stack_1.toString());
 // console.log('Stack 2: \n', stack_2.toString());
 // console.log('Stack 3: \n', stack_3.toString());
