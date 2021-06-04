@@ -1,9 +1,5 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # ##### Copyright 2021 The TF-Agents Authors.
 
-# In[ ]:
 
 
 #@title Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,10 +18,6 @@ tf.__version__
 
 
 # ##### GPU SETUP
-
-# In[ ]:
-
-
 from tensorflow.python.client import device_lib 
 print(device_lib.list_local_devices())
 gpus = tf.config.list_physical_devices('GPU')
@@ -43,19 +35,13 @@ if gpus:
 
 # ## Setup
 
-# In[3]:
 
 
 # Env = Game
 # Create Qtable 
-import gym
-
-env = gym.make("Taxi-v3").env
-
-env.render()
 
 
-# In[5]:
+
 
 
 import numpy as np
@@ -110,7 +96,6 @@ for i in range(1, 100001):
 print("Training finished.\n")
 
 
-# In[8]:
 
 
 """Evaluate agent's performance after Q-learning"""
@@ -140,10 +125,6 @@ for _ in range(episodes):
 print(f"Results after {episodes} episodes:")
 print(f"Average timesteps per episode: {total_epochs / episodes}")
 print(f"Average penalties per episode: {total_penalties / episodes}")
-
-
-# In[ ]:
-
 
 
 
