@@ -1,28 +1,40 @@
 <template>
   <div class="home">
+    <button style="position:fixed; top: 0; right: 0" @click="bruh">BRUH</button>
     <div style="display: flex; flex-flow: column nowrap;">
       <div style="display: flex; flex-flow: row nowrap;">
-        <CardStack :isDeck="false" style="margin-left:4.8%" :cards="deck" />
-        <CardStack style="margin-right:21.61%" :cards="deckopen" />
-        <CardStack :cards="endstack1" />
-        <CardStack :cards="endstack2" />
-        <CardStack :cards="endstack3" />
-        <CardStack style="margin-right:3.5%" :cards="endstack4" />
+        <CardStack @deckDraw="deckDraw" :isDeck="false" style="margin-left:4.8%" :cards="deck" />
+        <CardStack
+          @CardDropped="cardMove"
+          :isDeckOpen="false"
+          stackId="deckOpen"
+          style="margin-right:21.61%"
+          :cards="deckopen"
+        />
+        <EndStack stackId="endstack_1" :cards="endstack1" />
+        <EndStack stackId="endstack_2" :cards="endstack2" />
+        <EndStack stackId="endstack_3" :cards="endstack3" />
+        <EndStack stackId="endstack_4" style="margin-right:3.5%" :cards="endstack4" />
       </div>
       <div style="display: flex; flex-flow: row nowrap;">
-        <CardStack style="margin-left:15.63%" :cards="stack1" />
-        <CardStack :cards="stack2" />
-        <CardStack :cards="stack3" />
-        <CardStack :cards="stack4" />
-        <CardStack :cards="stack5" />
-        <CardStack :cards="stack6" />
-        <CardStack style="margin-right:3.5%" :cards="stack7" />
+        <CardStack @CardDropped="cardMove" stackId="stack_1" style="margin-left:15.63%" :cards="stack1" />
+        <CardStack @CardDropped="cardMove" stackId="stack_2" :cards="stack2" />
+        <CardStack @CardDropped="cardMove" stackId="stack_3" :cards="stack3" />
+        <CardStack @CardDropped="cardMove" stackId="stack_4" :cards="stack4" />
+        <CardStack @CardDropped="cardMove" stackId="stack_5" :cards="stack5" />
+        <CardStack @CardDropped="cardMove" stackId="stack_6" :cards="stack6" />
+        <CardStack @CardDropped="cardMove" stackId="stack_7" style="margin-right:3.5%" :cards="stack7" />
       </div>
     </div>
     <div
       style="background-color: #11111170; position:fixed; bottom: 0.7%;min-height:9.2%; width: 98.4%; border: solid #995555 5px;"
     >
-      <button disabled style="border: solid #00000000;background-color: #11111180; color: white;font-size:58px;padding-top: 1%; padding-bottom: 1%;">Moves: {{ counter }}</button>
+      <button
+        disabled
+        style="border: solid #00000000;background-color: #11111180; color: white;font-size:58px;padding-top: 1%; padding-bottom: 1%;"
+      >
+        Moves: {{ counter }}
+      </button>
     </div>
   </div>
 </template>
@@ -30,11 +42,12 @@
 <script>
 import game from '../logic/main';
 import CardStack from '@/components/CardStack.vue';
+import EndStack from '@/components/EndStack.vue';
 // @ is an alias to /src
 
 export default {
   name: 'Home',
-  components: { CardStack },
+  components: { CardStack, EndStack },
   data() {
     return {
       stack1: [],
@@ -54,7 +67,28 @@ export default {
     };
   },
   methods: {
+    deckDraw() {
+      game.drawNextCard();
+      this.getStacks();
+    },
+    bruh() {
+      console.log('BRUH');
+      Object.assign(this.stack3, game.stack_1.stack).reverse();
+    },
+    cardMove(e) {
+      console.log(e);
+      try {
+        if (e.from.includes('deck')) game.moveCard(e.from, 0, e.to);
+        else game.moveCard(e.from, e.OldIndex, e.to);
+      } catch (ex) {
+        console.log('Bruh: ', ex);
+      }
+      this.getStacks();
+      console.log(game.stack_List.find((el) => el.name == e.to).stack);
+    },
     getStacks() {
+      console.log('STACKS Updated');
+
       Object.assign(this.stack1, game.stack_1.stack).reverse();
       Object.assign(this.stack2, game.stack_2.stack).reverse();
       Object.assign(this.stack3, game.stack_3.stack).reverse();
@@ -72,19 +106,15 @@ export default {
     },
   },
   created() {
-    game.setUpScene(1);
+    game.setUpScene(2);
+    //game.setUpScene(1);
     console.log(game.stack_3);
     this.getStacks();
-    game.moveCard('stack_5',0,'stack_3');
-    this.getStacks();
-    console.log(game.stack_3);
-
-
   },
 };
 </script>
 <style lang="css" scoped>
 .home {
-  padding-top: 2.4%;
+  padding-top: 1.4%;
 }
 </style>

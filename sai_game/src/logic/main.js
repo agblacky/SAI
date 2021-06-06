@@ -175,15 +175,17 @@ function moveCard(oldStackName, index, newStackName) {
   // console.log(newStack.name);
   let oldStack = stack_List.find((el) => el.name == oldStackName);
   let newStack = stack_List.find((el) => el.name == newStackName);
-  for (let x of stack_3.stack) {
-    console.log('X--S: ', x.cardValue);
-  }
+
   if (gameWonFlag) return;
-  if (newStack.name == deck.name || newStack.name == deckOpen.name) {
-    throw 'Oldstack => Deck || DeckOpen';
-  }
-  if (oldStack.name == deck.name || (oldStack.name == deckOpen.name && index != 0)) {
-    throw 'Oldstack => Deck || DeckOpen';
+  // if (newStack.name == deck.name || newStack.name == deckOpen.name) {
+  //   throw 'Oldstack => Deck || DeckOpen';
+  // }
+  console.log(oldStack.name == deckOpen.name && Number(index) != 0);
+  console.log(Number(index));
+  console.log(deckOpen.stack.length);
+
+  if (oldStack.name == deck.name || (oldStack.name == deckOpen.name && Number(index) != 0)) {
+    throw 'Oldstack => Deck || DeckOpen AND INDEX';
   }
 
   if (
@@ -217,13 +219,13 @@ function moveCard(oldStackName, index, newStackName) {
     if (oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0) {
       throw 'newstack !=> Endstack_X && oS.cardvalue == 13 && nS.length != 0';
     }
-    if (oldStack.stack[index].cardValue + 1 != newStack.stack[0].cardValue) {
+    if (Number(oldStack.stack[index].cardValue) + 1 != newStack.stack[0].cardValue) {
       throw `newstack !=> Endstack_X && oS.cardvalue+1 != nS.cardValue::::: Card Old: ${oldStack.stack[index].cardValue} --- Card New: ${newStack.stack[0].cardValue}`;
     }
     // console.log('Flag 2');
 
     let allowedColor = [1, 4];
-    switch (oldStack.stack[index].type) {
+    switch (Number(oldStack.stack[index].type)) {
       case 1:
         allowedColor = [2, 3];
         break;
@@ -238,8 +240,10 @@ function moveCard(oldStackName, index, newStackName) {
         break;
     }
     // console.log('Flag 3');
+    let newCard = Number(newStack.stack[0].type);
+    //console.log('IF 3: ', !allowedColor.includes(Number(newCard)));
 
-    if (!allowedColor.includes(newStack.stack[0].type)) {
+    if (!allowedColor.includes(newCard)) {
       throw `newstack !=> Endstack_X && allowedColor == false::::: Card Color: ${oldStack.stack[index].type}|| Allowed Color: ${allowedColor}|| NewStack Card Color: ${newStack.stack[0].type}`;
     }
     // console.log('ENDE VON NEWSTACK-IF');
@@ -561,7 +565,7 @@ function setUpAlgo() {
   */
 function setUpScene(SceneNumber) {
   let funcObject = returnScenario(SceneNumber);
-  deck.stack = funcObject.deck;
+  deck.stack = [];
   let temps1 = [];
   let temps2 = [];
   let temps3 = [];
@@ -569,30 +573,53 @@ function setUpScene(SceneNumber) {
   let temps5 = [];
   let temps6 = [];
   let temps7 = [];
+  for (let x = funcObject.deck.length - 1; x >= 0; x--) {
+    let temp = cards.find(
+      (el) => el.cardValue == funcObject.deck[x].cardValue && el.type == funcObject.deck[x].type,
+    );
+    deck.stack.push(temp);
+  }
   for (let x = funcObject.stack_1.length - 1; x >= 0; x--) {
-    temps1.push(funcObject.stack_1[x]);
+    let temp = cards.find(
+      (el) => el.cardValue == funcObject.stack_1[x].cardValue && el.type == funcObject.stack_1[x].type,
+    );
+    temps1.push(temp);
   }
   for (let x = funcObject.stack_2.length - 1; x >= 0; x--) {
-    temps2.push(funcObject.stack_2[x]);
+    let temp = cards.find(
+      (el) => el.cardValue == funcObject.stack_2[x].cardValue && el.type == funcObject.stack_2[x].type,
+    );
+    temps2.push(temp);
   }
   for (let x = funcObject.stack_3.length - 1; x >= 0; x--) {
-    temps3.push(funcObject.stack_3[x]);
+    let temp = cards.find(
+      (el) => el.cardValue == funcObject.stack_3[x].cardValue && el.type == funcObject.stack_3[x].type,
+    );
+    temps3.push(temp);
   }
   for (let x = funcObject.stack_4.length - 1; x >= 0; x--) {
-    temps4.push(funcObject.stack_4[x]);
+    let temp = cards.find(
+      (el) => el.cardValue == funcObject.stack_4[x].cardValue && el.type == funcObject.stack_4[x].type,
+    );
+    temps4.push(temp);
   }
   for (let x = funcObject.stack_5.length - 1; x >= 0; x--) {
-    temps5.push(funcObject.stack_5[x]);
+    let temp = cards.find(
+      (el) => el.cardValue == funcObject.stack_5[x].cardValue && el.type == funcObject.stack_5[x].type,
+    );
+    temps5.push(temp);
   }
   for (let x = funcObject.stack_6.length - 1; x >= 0; x--) {
-    temps6.push(funcObject.stack_6[x]);
+    let temp = cards.find(
+      (el) => el.cardValue == funcObject.stack_6[x].cardValue && el.type == funcObject.stack_6[x].type,
+    );
+    temps6.push(temp);
   }
   for (let x = funcObject.stack_7.length - 1; x >= 0; x--) {
-    temps7.push(funcObject.stack_7[x]);
-  }
-
-  for (let x of temps3) {
-    console.log('X: ', x);
+    let temp = cards.find(
+      (el) => el.cardValue == funcObject.stack_7[x].cardValue && el.type == funcObject.stack_7[x].type,
+    );
+    temps7.push(temp);
   }
 
   stack_1.stack = temps1;
@@ -602,9 +629,6 @@ function setUpScene(SceneNumber) {
   stack_5.stack = temps5;
   stack_6.stack = temps6;
   stack_7.stack = temps7;
-  for (let x of stack_3.stack) {
-    console.log('X--A: ', x);
-  }
 }
 
 module.exports = {

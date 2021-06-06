@@ -4,7 +4,7 @@
       "bg_img": "./cards/background.png",
       "fg_img": "./cards/herz/_herzass.png",
       "cardValue": "1",
-      "type": "1"
+      "type": "1" 
     },
     {
       "bg_img": "./cards/background.png",
