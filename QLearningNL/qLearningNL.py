@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import tensorflow as tf
+"""import tensorflow as tf
 tf.__version__
 
 
@@ -32,20 +32,18 @@ if gpus:
     # Memory growth must be set before GPUs have been initialized
     print(e)
 
+"""
+
 
 # ## Setup
 
 
-
+#q_table = np.zeros([env.observation_space.n, env.action_space.n])
 # Env = Game
 # Create Qtable 
-
-
-
-
-
 import numpy as np
-q_table = np.zeros([env.observation_space.n, env.action_space.n])
+from numpy import random
+q_table = np.zeros([1,110])
 
 
 
@@ -64,18 +62,20 @@ all_epochs = []
 all_penalties = []
 
 for i in range(1, 100001):
-    state = env.reset()
-
+    #state = env.reset()
+    #Get random game
     epochs, penalties, reward, = 0, 0, 0
     done = False
     
     while not done:
         if random.uniform(0, 1) < epsilon:
-            action = env.action_space.sample() # Explore action space
+            #action = env.action_space.sample() # Explore action space
+            action = random.randint(0,110)
         else:
             action = np.argmax(q_table[state]) # Exploit learned values
 
-        next_state, reward, done, info = env.step(action) 
+        #next_state, reward, done, info = env.step(action)
+        #Get next_state, rewards of the next step and done
         
         old_value = q_table[state, action]
         next_max = np.max(q_table[next_state])
@@ -104,14 +104,16 @@ total_epochs, total_penalties = 0, 0
 episodes = 100
 
 for _ in range(episodes):
-    state = env.reset()
+    #state = env.reset()
+    #Get random game
     epochs, penalties, reward = 0, 0, 0
     
     done = False
     
     while not done:
         action = np.argmax(q_table[state])
-        state, reward, done, info = env.step(action)
+        #state, reward, done, info = env.step(action)
+        #Get state, rewards of the next step and done
 
         if reward == -10:
             penalties += 1
@@ -120,7 +122,7 @@ for _ in range(episodes):
 
     total_penalties += penalties
     total_epochs += epochs
-    env.render()
+    #env.render()
 
 print(f"Results after {episodes} episodes:")
 print(f"Average timesteps per episode: {total_epochs / episodes}")
