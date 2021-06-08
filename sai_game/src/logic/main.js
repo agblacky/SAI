@@ -315,13 +315,13 @@ function drawNextCard() {
 
 function checkWin() {
   if (
-    endstack_1.stack.length == 13 &&
-    endstack_2.stack.length == 13 &&
-    endstack_3.stack.length == 13 &&
-    endstack_4.stack.length == 13
+    endstack_1.stack.length == 14 &&
+    endstack_2.stack.length == 14 &&
+    endstack_3.stack.length == 14 &&
+    endstack_4.stack.length == 14
   ) {
+    throw 'GAME END';
     // console.log('Game END: WON');
-    gameWonFlag = true;
   }
 }
 
@@ -583,50 +583,67 @@ function setUpScene(SceneNumber) {
     let temp = cards.find(
       (el) => el.cardValue == funcObject.deck[x].cardValue && el.type == funcObject.deck[x].type,
     );
+    temp.visible = false;
     deck.stack.push(temp);
   }
   for (let x = funcObject.stack_1.length - 1; x >= 0; x--) {
     let temp = cards.find(
       (el) => el.cardValue == funcObject.stack_1[x].cardValue && el.type == funcObject.stack_1[x].type,
     );
+    temp.visible = false;
     temps1.push(temp);
   }
   for (let x = funcObject.stack_2.length - 1; x >= 0; x--) {
     let temp = cards.find(
       (el) => el.cardValue == funcObject.stack_2[x].cardValue && el.type == funcObject.stack_2[x].type,
     );
+    temp.visible = false;
     temps2.push(temp);
   }
   for (let x = funcObject.stack_3.length - 1; x >= 0; x--) {
     let temp = cards.find(
       (el) => el.cardValue == funcObject.stack_3[x].cardValue && el.type == funcObject.stack_3[x].type,
     );
+    temp.visible = false;
     temps3.push(temp);
   }
   for (let x = funcObject.stack_4.length - 1; x >= 0; x--) {
     let temp = cards.find(
       (el) => el.cardValue == funcObject.stack_4[x].cardValue && el.type == funcObject.stack_4[x].type,
     );
+    temp.visible = false;
     temps4.push(temp);
   }
   for (let x = funcObject.stack_5.length - 1; x >= 0; x--) {
     let temp = cards.find(
       (el) => el.cardValue == funcObject.stack_5[x].cardValue && el.type == funcObject.stack_5[x].type,
     );
+    temp.visible = false;
     temps5.push(temp);
   }
   for (let x = funcObject.stack_6.length - 1; x >= 0; x--) {
     let temp = cards.find(
       (el) => el.cardValue == funcObject.stack_6[x].cardValue && el.type == funcObject.stack_6[x].type,
     );
+    temp.visible = false;
+
     temps6.push(temp);
   }
   for (let x = funcObject.stack_7.length - 1; x >= 0; x--) {
     let temp = cards.find(
       (el) => el.cardValue == funcObject.stack_7[x].cardValue && el.type == funcObject.stack_7[x].type,
     );
+    temp.visible = false;
     temps7.push(temp);
   }
+
+  temps1[0].visible = true;
+  temps2[0].visible = true;
+  temps3[0].visible = true;
+  temps4[0].visible = true;
+  temps5[0].visible = true;
+  temps6[0].visible = true;
+  temps7[0].visible = true;
 
   stack_1.stack = temps1;
   stack_2.stack = temps2;

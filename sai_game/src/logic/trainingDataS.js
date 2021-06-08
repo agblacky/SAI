@@ -81,7 +81,7 @@ let trainingDataS = [
       { card: 6, type: 4 },
       { card: 6, type: 2 },
       { card: 4, type: 3 },
-      { card: 11, type: 2 },
+      { card: 11, type: 3 },
       { card: 13, type: 1 },
       { card: 12, type: 3 },
       { card: 12, type: 1 },
@@ -116,7 +116,7 @@ let trainingDataS = [
       [
         { card: 1, type: 4 },
         { card: 5, type: 3 },
-        { card: 11, type: 3 },
+        { card: 11, type: 2 },
         { card: 3, type: 3 },
         { card: 7, type: 3 },
       ],

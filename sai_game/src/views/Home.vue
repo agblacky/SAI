@@ -26,22 +26,23 @@
       </div>
     </div>
     <div
-      style="background-color: #11111170; position:fixed; bottom: 0.7%;min-height:9.2%; width: 98.4%; border: solid #995555 5px;display:flex; vertical-align:middle"
+      style="background-color: #11111170; position:fixed; bottom: 0.7%;min-height:9.2%; width: 98.4%; border: solid #995555 5px;display:flex;"
     >
       <button
         disabled
         style="border: solid #00000000;background-color: #11111180; color: white;font-size:58px"
       >
-        Moves: {{ counter }}
+        {{ counter + '\t' }}
       </button>
-      <img @click="reloadW" src="../assets/restart.png" style="margin-left:35%;" alt="" />
-      <img v-if="false" @click="undoMove" src="../assets/undo.png" style="margin-left:1%;" alt="" />
-      <img src="../assets/ai-button.png" style="margin-left:1%;" alt="" />
+      <img @click="reloadW" src="../assets/restart.png" style="margin-left:25%" alt="" />
+      <img v-if="true" @click="undoMove" src="../assets/undo.png" style="margin-left:1%;" alt="" />
+      <img @click="runDemo" src="../assets/ai-button.png" style="margin-left:1%;" alt="" />
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 import game from '../logic/main';
 import CardStack from '@/components/CardStack.vue';
 import EndStack from '@/components/EndStack.vue';
@@ -52,6 +53,7 @@ export default {
   components: { CardStack, EndStack },
   data() {
     return {
+      moves: [],
       stack1: [],
       stack2: [],
       stack3: [],
@@ -70,6 +72,26 @@ export default {
     };
   },
   methods: {
+    runDemo() {
+      setTimeout(() => {
+        let counter = 2000;
+        for (let move of this.moves) {
+          if (move.drawNext) {
+            setTimeout(() => {
+              game.drawNextCard();
+              this.getStacks();
+            }, counter);
+          } else {
+            setTimeout(() => {
+              game.moveCard(move.from, move.id, move.to);
+              this.getStacks();
+            }, counter);
+          }
+          counter += 1000;
+        }
+      }, 1000);
+    },
+
     undoMove() {
       game.gameStates.stack.pop();
       this.reloadFromGamestates();
@@ -124,6 +146,13 @@ export default {
 
       this.getStacks();
     },
+    async getMoves() {
+      let temp = await axios({
+        url: 'http://localhost:8080/moves.json',
+        method: 'get',
+      });
+      this.moves = temp.data.moves;
+    },
     getStacks() {
       console.log('STACKS Updated');
       this.stack1 = [];
@@ -159,8 +188,9 @@ export default {
     },
   },
   created() {
-    //game.setUpScene(1);
-    game.setUpAlgo();
+    this.getMoves();
+    game.setUpScene(1);
+    //game.setUpAlgo();
     console.log(game.stack_3);
     this.getStacks();
   },
