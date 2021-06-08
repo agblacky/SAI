@@ -1,0 +1,18 @@
+.bg-lightgreen{
+    background-color: #5D634E;
+}
+.bg-darkgreen{
+    background-color: #2C3024;
+}
+.icon{
+    width: 32px;
+}
+.site{
+    height:100vh;
+}
+
+@media (min-width: 1920px){
+.icon{
+    width: 48px;
+}
+}
