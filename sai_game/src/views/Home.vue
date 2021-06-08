@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <button style="position:fixed; top: 0; right: 0" @click="bruh">BRUH</button>
     <div style="display: flex; flex-flow: column nowrap;">
       <div style="display: flex; flex-flow: row nowrap;">
         <CardStack @deckDraw="deckDraw" :isDeck="false" style="margin-left:4.8%" :cards="deck" />
@@ -35,8 +34,8 @@
       >
         Moves: {{ counter }}
       </button>
-      <img @click="undoMove" src="../assets/undo.png" style="margin-left:35%;" alt="" />
-      <img @click="reloadW" src="../assets/restart.png" style="margin-left:1%;" alt="" />
+      <img @click="reloadW" src="../assets/restart.png" style="margin-left:35%;" alt="" />
+      <img v-if="false" @click="undoMove" src="../assets/undo.png" style="margin-left:1%;" alt="" />
       <img src="../assets/ai-button.png" style="margin-left:1%;" alt="" />
     </div>
   </div>
@@ -67,6 +66,7 @@ export default {
       deck: [],
       deckopen: [],
       counter: 0,
+      gammestates: [],
     };
   },
   methods: {
@@ -97,7 +97,13 @@ export default {
       console.log(game.stack_List.find((el) => el.name == e.to).stack);
     },
     reloadFromGamestates() {
+      console.log('GAMMESTATES');
+      console.log(this.gammestates);
+
       console.log(game.gameStates.stack);
+      console.log('########');
+      console.log(game.gameStates.stack);
+      console.log('-#-#-#-###');
 
       game.stack_1 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_1;
       game.stack_2 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_2;
@@ -112,6 +118,10 @@ export default {
       game.endstack_4 = game.gameStates.stack[game.gameStates.stack.length - 1].endstack_4;
       game.deck = game.gameStates.stack[game.gameStates.stack.length - 1].deck;
       game.deckOpen = game.gameStates.stack[game.gameStates.stack.length - 1].deckOpen;
+      console.log('RELOADFROMGAMESTATES');
+      console.log(game.stack_1);
+      console.log('RELOADFROMGAMESTATES');
+
       this.getStacks();
     },
     getStacks() {
@@ -144,6 +154,7 @@ export default {
       Object.assign(this.deck, game.deck.stack).reverse();
       Object.assign(this.deckopen, game.deckOpen.stack).reverse();
       this.counter = game.gameStates.stack.length | 0;
+      this.gammestates = game.gameStates.stack;
       // }, 30);
     },
   },
