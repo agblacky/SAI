@@ -38,13 +38,7 @@ function returnScenario(id) {
     }
     counter++;
   }
-  newStack1[newStack1.length - 1].visible = true;
-  newStack2[newStack2.length - 1].visible = true;
-  newStack3[newStack3.length - 1].visible = true;
-  newStack4[newStack4.length - 1].visible = true;
-  newStack5[newStack5.length - 1].visible = true;
-  newStack6[newStack6.length - 1].visible = true;
-  newStack7[newStack7.length - 1].visible = true;
+
   let result = {
     deck: newDeck,
     stack_1: newStack1,

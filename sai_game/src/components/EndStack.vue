@@ -8,8 +8,8 @@
         v-model="cardsfromProp"
         group="stacks"
       >
-        <div v-if="normalCards[0] != undefined">
-          <img :src="normalCards[0].fg_img" alt="" class="card" />
+        <div v-if="normalCards[normalCards.length - 1] != undefined">
+          <img :src="normalCards[normalCards.length - 1].fg_img" alt="" class="card" />
         </div>
       </draggable>
     </div>

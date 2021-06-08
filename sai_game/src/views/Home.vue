@@ -27,14 +27,17 @@
       </div>
     </div>
     <div
-      style="background-color: #11111170; position:fixed; bottom: 0.7%;min-height:9.2%; width: 98.4%; border: solid #995555 5px;"
+      style="background-color: #11111170; position:fixed; bottom: 0.7%;min-height:9.2%; width: 98.4%; border: solid #995555 5px;display:flex; vertical-align:middle"
     >
       <button
         disabled
-        style="border: solid #00000000;background-color: #11111180; color: white;font-size:58px;padding-top: 1%; padding-bottom: 1%;"
+        style="border: solid #00000000;background-color: #11111180; color: white;font-size:58px"
       >
         Moves: {{ counter }}
       </button>
+      <img @click="undoMove" src="../assets/undo.png" style="margin-left:35%;" alt="" />
+      <img @click="reloadW" src="../assets/restart.png" style="margin-left:1%;" alt="" />
+      <img src="../assets/ai-button.png" style="margin-left:1%;" alt="" />
     </div>
   </div>
 </template>
@@ -67,6 +70,13 @@ export default {
     };
   },
   methods: {
+    undoMove() {
+      game.gameStates.stack.pop();
+      this.reloadFromGamestates();
+    },
+    reloadW() {
+      location.reload();
+    },
     deckDraw() {
       game.drawNextCard();
       this.getStacks();
@@ -86,9 +96,40 @@ export default {
       this.getStacks();
       console.log(game.stack_List.find((el) => el.name == e.to).stack);
     },
+    reloadFromGamestates() {
+      console.log(game.gameStates.stack);
+
+      game.stack_1 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_1;
+      game.stack_2 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_2;
+      game.stack_3 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_3;
+      game.stack_4 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_4;
+      game.stack_5 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_5;
+      game.stack_6 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_6;
+      game.stack_7 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_7;
+      game.endstack_1 = game.gameStates.stack[game.gameStates.stack.length - 1].endstack_1;
+      game.endstack_2 = game.gameStates.stack[game.gameStates.stack.length - 1].endstack_2;
+      game.endstack_3 = game.gameStates.stack[game.gameStates.stack.length - 1].endstack_3;
+      game.endstack_4 = game.gameStates.stack[game.gameStates.stack.length - 1].endstack_4;
+      game.deck = game.gameStates.stack[game.gameStates.stack.length - 1].deck;
+      game.deckOpen = game.gameStates.stack[game.gameStates.stack.length - 1].deckOpen;
+      this.getStacks();
+    },
     getStacks() {
       console.log('STACKS Updated');
-
+      this.stack1 = [];
+      this.stack2 = [];
+      this.stack3 = [];
+      this.stack4 = [];
+      this.stack5 = [];
+      this.stack6 = [];
+      this.stack7 = [];
+      this.endstack1 = [];
+      this.endstack2 = [];
+      this.endstack3 = [];
+      this.endstack4 = [];
+      this.deck = [];
+      this.deckopen = [];
+      //    setTimeout(() => {
       Object.assign(this.stack1, game.stack_1.stack).reverse();
       Object.assign(this.stack2, game.stack_2.stack).reverse();
       Object.assign(this.stack3, game.stack_3.stack).reverse();
@@ -96,18 +137,19 @@ export default {
       Object.assign(this.stack5, game.stack_5.stack).reverse();
       Object.assign(this.stack6, game.stack_6.stack).reverse();
       Object.assign(this.stack7, game.stack_7.stack).reverse();
-      Object.assign(this.endstack1, game.endstack_1.stack).reverse();
-      Object.assign(this.endstack2, game.endstack_2.stack).reverse();
-      Object.assign(this.endstack3, game.endstack_3.stack).reverse();
-      Object.assign(this.endstack4, game.endstack_4.stack).reverse();
+      Object.assign(this.endstack1, game.endstack_1.stack);
+      Object.assign(this.endstack2, game.endstack_2.stack);
+      Object.assign(this.endstack3, game.endstack_3.stack);
+      Object.assign(this.endstack4, game.endstack_4.stack);
       Object.assign(this.deck, game.deck.stack).reverse();
       Object.assign(this.deckopen, game.deckOpen.stack).reverse();
       this.counter = game.gameStates.stack.length | 0;
+      // }, 30);
     },
   },
   created() {
-    game.setUpScene(2);
     //game.setUpScene(1);
+    game.setUpAlgo();
     console.log(game.stack_3);
     this.getStacks();
   },

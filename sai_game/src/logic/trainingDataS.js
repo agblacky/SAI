@@ -133,7 +133,7 @@ let trainingDataS = [
         { card: 12, type: 4 },
         { card: 4, type: 2 },
         { card: 1, type: 1 },
-        { card: 2, type: 3 },
+        { card: 2, type: 2 },
         { card: 3, type: 4 },
         { card: 5, type: 2 },
       ],

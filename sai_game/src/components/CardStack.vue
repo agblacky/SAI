@@ -34,7 +34,9 @@
           </div>
         </draggable>
       </div>
-      <div v-else class="dragContainer" @click="$emit('deckDraw')"></div>
+      <div v-else class="dragContainer" @click="$emit('deckDraw')">
+        <img src="../assets/background.png" style="max-width:130px;max-height:200px;" alt="" />
+      </div>
     </div>
   </div>
 </template>
@@ -81,6 +83,11 @@ export default {
       default: () => '',
     },
   },
+  data() {
+    return {
+      cardProp: [],
+    };
+  },
   computed: {
     cardsfromProp: {
       get: function() {
@@ -94,7 +101,12 @@ export default {
       },
     },
     cropCards() {
-      return this.cardsfromProp.filter((el, id) => id <= this.cardsfromProp.length - 2);
+      return this.cardsfromProp
+        .filter((el, id) => id <= this.cardsfromProp.length - 2)
+        .map((el) => {
+          if (el.visible == true) return { cardValue: el.cardType, type: el.type, fg_img: el.fg_img };
+          else return { cardValue: el.cardType, type: el.type, fg_img: el.bg_img };
+        });
     },
     normalCards() {
       return this.cardsfromProp.filter((el, id) => id == this.cardsfromProp.length - 1);
