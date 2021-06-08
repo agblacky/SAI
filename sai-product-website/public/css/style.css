@@ -1,18 +1,23 @@
-.bg-lightgreen{
-    background-color: #5D634E;
+.bg-none {
+  background: rgba(220, 220, 220, 0.7);
+  box-shadow: 0 0 10px 0px rgba(0, 0, 0, 1);
 }
-.bg-darkgreen{
-    background-color: #2C3024;
+.bg-img {
+  background:linear-gradient(rgba(0,0,0,0.5), rgba(50,0,0,0.5)), url("../img/cards.png");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-.icon{
-    width: 32px;
+.icon {
+  width: 32px;
 }
-.site{
-    height:100vh;
+.site {
+  height: 100vh;
 }
 
-@media (min-width: 1920px){
-.icon{
+@media (min-width: 1920px) {
+  .icon {
     width: 48px;
-}
+  }
 }

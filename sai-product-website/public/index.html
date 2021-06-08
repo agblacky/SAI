@@ -13,14 +13,14 @@
           power of a game we wanted to draw attention to those difficult
           problems." />
     <meta name="url" content="amazon-guardline.herokuapp.com" />
-    <title>Amazon-Guardline</title>
+    <title>Welcome to SAI</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="img/logo.png" />
   </head>
   <body>
     <nav
-      class="navbar navbar-expand-mg navbar-light bg-lightgreen shadow fixed-top navbar-expand-lg"
+      class="navbar navbar-expand-mg navbar-light bg-none shadow fixed-top navbar-expand-lg"
     >
       <div class="container-fluid">
         <a class="navbar-brand" href="#"
@@ -51,17 +51,14 @@
     </nav>
 
     <div
-      class="container-fluid site d-flex flex-wrap justify-content-around align-items-center align-self-stretch bg-darkgreen"
+      class="container-fluid site d-flex flex-wrap justify-content-around align-items-center align-self-stretch bg-img"
     >
       <div class="col-12 col-md-3 text-light">
         <h2>Description</h2>
         <p>
-          Clearing forests, Environmental pollution, People ignoring the
-          problems. There are many environmental struggles nowadays and with the
-          power of a game we wanted to draw attention to those difficult
-          problems.<br />
+          SAI is a pixel-art looking klondike solitaire game to play online for free. Find yourself stuck? No problem! Our self-created state of the art QLearning neuronal networt is going to help you at your next decision. <a href="" class="link-light">Click here to play.</a><br/>
           <span class="blockquote-footer text-light">
-            Making statements with games
+            Solitaire made easy
           </span>
         </p>
       </div>
@@ -97,19 +94,23 @@
         >
           <div class="col-12 col-md-3">
             <h3>Maximilian Blam</h3>
-            <p>"With bad reputation comes much more work."</p>
+            <p>- ""</p>
+          </div>
+          <div class="col-12 col-md-3">
+            <h3>Ahmed Hasanovic</h3>
+            <p>- "Comment"</p>
           </div>
           <!--end of col-->
           <div class="col-12 col-md-3">
             <h3>Moritz Miedler</h3>
-            <p>"If you can do it tomorrow, do it tomorrow."</p>
+            <p>- "If you can do it tomorrow, do it tomorrow."</p>
           </div>
         </div>
         <!--end of row-->
       </div>
       <!--end of container-->
     </section>
-    <section class="m-5 p-5">
+    <section class="my-5">
       <div class="container">
         <div class="row justify-content-center text-center section-intro">
           <div class="col-12 col-md-9 col-lg-8">
@@ -118,121 +119,19 @@
               data-aos="fade-up"
               data-aos-delay="100"
             >
-              Downloads
+              Try it yourself
             </h2>
           </div>
           <!--end of col-->
-        </div>
-        <!--end of row-->
-
-        <div
-          class="row d-flex justify-content-around feature-list feature-list-sm"
-          id="downloads"
-        >
-          <div class="card m-3 bg-darkgreen text-light" style="width: 18rem">
-            <img src="img/windowslogo.png" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h5 class="card-title">Windows Build</h5>
-              <p class="card-text">
-                Download the latest build for the Windows platform here:
-              </p>
-              <form class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="flexCheckDefault"
-                  checked="false"
-                  v-model="checkedwin"
-                />
-                <label class="form-check-label" for="flexCheckDefault">
-                  By checking, you agree to our
-                  <a href="html/legal.html#tou">Terms of Use</a> &
-                  <a href="html/legal.html#eula">End-User License Agreement</a>
-                </label>
-              </form>
-              <a
-                href="/download/Amazon_Guardline_win_x86.7z"
-                download
-                v-if="checkedwin"
-              >
-                <button type="button" class="btn btn-success">Download</button>
-              </a>
-            </div>
-          </div>
-          <div class="card m-3 bg-darkgreen text-light" style="width: 18rem">
-            <img src="img/macoslogo.png" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h5 class="card-title">MacOS Build</h5>
-              <p class="card-text">
-                Download the latest build for the MacOS platform here:
-              </p>
-              <form class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="flexCheckDefault"
-                  checked="false"
-                  v-model="checkedmac"
-                />
-                <label class="form-check-label" for="flexCheckDefault">
-                  By checking, you agree to our
-                  <a href="html/legal.html#tou">Terms of Use</a> &
-                  <a href="html/legal.html#eula">End-User License Agreement</a>
-                </label>
-              </form>
-              <a
-                href="/download/Amazon_Guardline.app.7z"
-                download
-                v-if="checkedmac"
-              >
-                <button type="button" class="btn btn-success">Download</button>
-              </a>
-            </div>
-          </div>
-          <div class="card m-3 bg-darkgreen text-light" style="width: 18rem">
-            <img src="img/linuxlogo.png" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h5 class="card-title">Linux Build</h5>
-              <p class="card-text">
-                Download the latest build for the Linux platform here:
-              </p>
-              <form class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="flexCheckDefault"
-                  checked="false"
-                  v-model="checkedlin"
-                />
-                <label class="form-check-label" for="flexCheckDefault">
-                  By checking, you agree to our
-                  <a href="html/legal.html#tou">Terms of Use</a> &
-                  <a href="html/legal.html#eula">End-User License Agreement</a>
-                </label>
-              </form>
-              <a
-                href="/download/Amazon_Guardline_x86_64.7z"
-                download
-                v-if="checkedlin"
-              >
-                <button type="button" class="btn btn-success">Download</button>
-              </a>
-            </div>
+          <div class="container my-3">
+            <button class="btn btn-primary" href="">Visit Website</button>
           </div>
         </div>
         <!--end of row-->
       </div>
+      <div class="container"></div>
       <!--end of container-->
     </section>
-    <footer class="bg-darkgreen footer-long p-3">
-      <div class="container d-flex justify-content-center">
-        <a class="nav-link text-light" href="html/legal.html">Legal</a>
-      </div>
-      <!--end of container-->
-    </footer>
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
