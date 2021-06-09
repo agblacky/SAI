@@ -1,5 +1,5 @@
-let { cards } = require('../libraryTest/src/assets/cards.json');
-let prompt = require('prompt-sync')();
+let cardsCopy = require('./cards.json').cards;
+const prompt = require('prompt-sync')();
 const { returnScenario } = require('./scenarioLoader');
 const ax = require('axios');
 
@@ -20,7 +20,7 @@ async function newGameInit(){
   });
 }
 
-let cardsCopy = cards;
+//let cardsCopy = cards;
 // for (let i of cards) {
 //   let type = '';
 //   switch (i.type) {
