@@ -33,7 +33,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("/move", methods=['GET'])
+@app.route("/move", methods=['POST'])
 def index():
     print("recieved");
     state = request.get_json();
