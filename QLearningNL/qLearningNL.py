@@ -75,7 +75,7 @@ epsilon = 0.1
 all_epochs = []
 all_penalties = []
 
-for i in range(1, 100001):
+def training(state):
     #state = env.reset()
     #Get random game
     epochs, penalties, reward, = 0, 0, 0
@@ -106,8 +106,7 @@ for i in range(1, 100001):
     if i % 100 == 0:
         clear_output(wait=True)
         print(f"Episode: {i}")
-
-print("Training finished.\n")
+    
 
 
 
@@ -117,7 +116,7 @@ print("Training finished.\n")
 total_epochs, total_penalties = 0, 0
 episodes = 100
 
-for _ in range(episodes):
+def evaluation(state):
     #state = env.reset()
     #Get random game
     epochs, penalties, reward = 0, 0, 0
@@ -137,6 +136,7 @@ for _ in range(episodes):
     total_penalties += penalties
     total_epochs += epochs
     #env.render()
+    print(state)
 
 print(f"Results after {episodes} episodes:")
 print(f"Average timesteps per episode: {total_epochs / episodes}")
