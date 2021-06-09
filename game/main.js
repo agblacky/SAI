@@ -1,6 +1,24 @@
 let { cards } = require('../libraryTest/src/assets/cards.json');
 let prompt = require('prompt-sync')();
 const { returnScenario } = require('./scenarioLoader');
+const ax = require('axios');
+
+async function getMove(state){
+  const { data } = await ax({
+    url: "http://127.0.0.1:3456/move",
+    "content-type":"application/json",
+    method: 'POST',
+    data: state
+  });
+  return data;
+}
+
+async function newGameInit(){
+  await ax({
+    url: "http://127.0.0.1:3456/game",
+    method: 'DELETE'
+  });
+}
 
 let cardsCopy = cards;
 // for (let i of cards) {
@@ -438,8 +456,11 @@ console.log(stack_6.stack.map((el) => ({ cardValue: el.cardValue, type: el.type,
 console.log('-----------------------------------------------');
 console.log(stack_7.stack.map((el) => ({ cardValue: el.cardValue, type: el.type, visible: el.visible })));
 
-let input = prompt('moveCard(o,i,n) | dc: ');
+//let input = prompt('moveCard(o,i,n) | dc: ');
+async function a() {
+let input = await getMove(gameStates.stack[gameStates.stack.length - 1]);
 while (input != '') {
+  for(let i = 0; i < 1000000000; i++) {}
   if (input == 'dc') {
     drawNextCard();
 
@@ -506,8 +527,14 @@ while (input != '') {
     console.log('Wrong');
   }
 
-  input = prompt('moveCard(o,i,n) | dc: ');
+  
+  input = await getMove(gameStates.stack[gameStates.stack.length - 1]);
+  //input = prompt('moveCard(o,i,n) | dc: ');
 }
+}
+a();
+
+//while (true ) {}
 // // console.log('###########################################');
 
 // // console.log(stack_1.stack.length);
@@ -599,6 +626,7 @@ function setUpScene(SceneNumber) {
   }
 }
 
+
 module.exports = {
   stack_1,
   stack_2,
@@ -620,3 +648,4 @@ module.exports = {
   stack_List,
   setUpScene,
 };
+
