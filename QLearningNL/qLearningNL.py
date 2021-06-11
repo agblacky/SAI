@@ -36,7 +36,7 @@ with open('actions.json', 'r') as myfile:
 # parse file
 
 actions = json.loads(data)
-q_table = np.zeros([1,110])
+q_table = np.zeros([1,len(actions)])
 
 
 
@@ -64,7 +64,7 @@ def training(state):
     while not done:
         if random.uniform(0, 1) < epsilon:
             #action = env.action_space.sample() # Explore action space
-            action = random.randint(0,110)
+            action = random.randint(0,len(actions))
         else:
             action = np.argmax(q_table[state]) # Exploit learned values
 
