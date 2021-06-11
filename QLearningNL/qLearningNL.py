@@ -28,6 +28,14 @@ if gpus:
 # Env = Game
 # Create Qtable 
 import numpy as np
+import json
+
+# read file
+with open('actions.json', 'r') as myfile:
+    data=myfile.read()
+# parse file
+
+actions = json.loads(data)
 q_table = np.zeros([1,110])
 
 
