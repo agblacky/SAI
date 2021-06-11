@@ -19,35 +19,6 @@ if gpus:
 
 """
 
-# Server Setup
-
-from flask import Flask, request
-import qLearningNL
-
-app = Flask(__name__)
-
-@app.route("/move", methods=['GET'])
-def index():
-    print("received");
-    state = request.get_json();
-    #print(state);
-    #return "moveCard(1,0,1)"
-    #return "dc"
-    training(state)
-
-@app.route("/game", methods=["DELETE"])
-def newGame():
-    #clear the buffer of the other states for a new game
-    #to better juge the move
-    pass;
-
-@app.route("/", methods=['GET'])
-def hello():
-    return "hello\nyou should not do that\n\t]:";
-
-
-app.run(host='127.0.0.1', port=3456)
-
 
 
 # NL Setup
@@ -58,6 +29,7 @@ app.run(host='127.0.0.1', port=3456)
 # Create Qtable 
 import numpy as np
 q_table = np.zeros([1,110])
+
 
 
 
@@ -116,31 +88,60 @@ def training(state):
 total_epochs, total_penalties = 0, 0
 episodes = 100
 
-def evaluation(state):
-    #state = env.reset()
-    #Get random game
-    epochs, penalties, reward = 0, 0, 0
+# def evaluation(state):
+#     #state = env.reset()
+#     #Get random game
+#     epochs, penalties, reward = 0, 0, 0
     
-    done = False
+#     done = False
     
-    while not done:
-        action = np.argmax(q_table[state])
-        #state, reward, done, info = env.step(action)
-        #Get state, rewards of the next step and done
+#     while not done:
+#         action = np.argmax(q_table[state])
+#         #state, reward, done, info = env.step(action)
+#         #Get state, rewards of the next step and done
 
-        if reward == -10:
-            penalties += 1
+#         if reward == -10:
+#             penalties += 1
 
-        epochs += 1
+#         epochs += 1
 
-    total_penalties += penalties
-    total_epochs += epochs
-    #env.render()
-    print(state)
+#     total_penalties += penalties
+#     total_epochs += epochs
+#     #env.render()
+#     print(state)
 
-print(f"Results after {episodes} episodes:")
-print(f"Average timesteps per episode: {total_epochs / episodes}")
-print(f"Average penalties per episode: {total_penalties / episodes}")
+# print(f"Results after {episodes} episodes:")
+# print(f"Average timesteps per episode: {total_epochs / episodes}")
+# print(f"Average penalties per episode: {total_penalties / episodes}")
 
 
 
+
+# Server Setup
+
+from flask import Flask, request
+import qLearningNL
+
+app = Flask(__name__)
+
+@app.route("/move", methods=['GET'])
+def index():
+    print("received");
+    state = request.get_json();
+    #print(state);
+    #return "moveCard(1,0,1)"
+    #return "dc"
+    training(state)
+
+@app.route("/game", methods=["DELETE"])
+def newGame():
+    #clear the buffer of the other states for a new game
+    #to better juge the move
+    pass;
+
+@app.route("/", methods=['GET'])
+def hello():
+    return "hello\nyou should not do that\n\t]:";
+
+
+app.run(host='127.0.0.1', port=3456)
