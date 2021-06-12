@@ -1,10 +1,8 @@
 let cardsCopy = require('./cards.json').cards;
-let fs = require('fs');
+const allActions = require('./actions.json');
 const prompt = require('prompt-sync')();
 const { returnScenario } = require('./scenarioLoader');
 const ax = require('axios');
-let allActions = [];
-getActions();
 
 async function getMove(state, possibleActions) {
   input = { state: state, actions: possibleActions };
@@ -22,12 +20,6 @@ async function newGameInit() {
   await ax({
     url: 'http://127.0.0.1:3456/game',
     method: 'DELETE',
-  });
-}
-
-function getActions() {
-  fs.readFile('actions.json', 'utf8', function (err, data) {
-    allActions = JSON.parse(data);
   });
 }
 
@@ -227,8 +219,8 @@ function moveCard(oldStackName, index, newStackName) {
 
 function checkActions(allActions) {
   let possible = [];
-  for (let i of allActions) {
-    if (i != 'dc') {
+  for (let input of allActions) {
+    try {
       let temp = input.split('(')[1].split(')')[0].split(',');
       let index = Number(temp[1]);
       let oldStack = stack_List.find((el) => el.name == temp[0]);
@@ -341,8 +333,10 @@ function checkActions(allActions) {
           continue;
         }
       }
-      possible.push(i);
+    } catch (error) {
+      console.error(error);
     }
+    possible.push(input);
   }
   return possible;
 }
