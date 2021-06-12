@@ -133,10 +133,9 @@ app = Flask(__name__)
 @app.route("/move", methods=['GET'])
 def index():
     print("received");
-    # obj = request.get_json();
-    # print(obj)
-    state=request.form['state']
-    actions=request.form['actions']
+    obj = request.get_json();
+    state=obj['state']
+    actions=obj['actions']
     #print(state);
     #return "moveCard(1,0,1)"
     #return "dc"

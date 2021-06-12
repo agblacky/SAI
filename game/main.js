@@ -224,7 +224,7 @@ function moveCard(oldStackName, index, newStackName) {
 }
 
 function checkActions(allActions) {
-  let possibleActions = [];
+  let possible = [];
   for (let i of allActions) {
     if (i != 'dc') {
       let temp = input.split('(')[1].split(')')[0].split(',');
@@ -339,10 +339,10 @@ function checkActions(allActions) {
           continue;
         }
       }
-      possibleActions.push(i);
+      possible.push(i);
     }
   }
-  return possibleActions;
+  return possible;
 }
 
 function drawNextCard() {
@@ -548,6 +548,7 @@ async function a() {
     gameStates.stack[gameStates.stack.length - 1],
     possibleActions
   );
+  drawNextCard();
   while (input != '') {
     if (input == 'dc') {
       drawNextCard();
@@ -723,7 +724,10 @@ async function a() {
       console.log('Wrong');
     }
 
-    input = await getMove(gameStates.stack[gameStates.stack.length - 1]);
+    input = await getMove(
+      gameStates.stack[gameStates.stack.length - 1],
+      possibleActions
+    );
     //input = prompt('moveCard(o,i,n) | dc: ');
   }
 }
