@@ -7,11 +7,13 @@ let allActions = [];
 getActions();
 
 async function getMove(state, possibleActions) {
+  input = { state: state, actions: possibleActions };
+  console.log(possibleActions);
   const { data } = await ax({
     url: 'http://127.0.0.1:3456/move',
     method: 'GET',
     contentType: 'application/json',
-    data: { state: state, actions: possibleActions },
+    data: input,
   });
   return data;
 }
@@ -485,6 +487,7 @@ function setUpAlgo() {
   }
 }
 setUpScene(1);
+
 console.log(
   stack_1.stack.map((el) => ({
     cardValue: el.cardValue,
@@ -543,12 +546,12 @@ console.log(
 
 //let input = prompt('moveCard(o,i,n) | dc: ');
 async function a() {
+  drawNextCard();
   let possibleActions = checkActions(allActions);
   let input = await getMove(
     gameStates.stack[gameStates.stack.length - 1],
     possibleActions
   );
-  drawNextCard();
   while (input != '') {
     if (input == 'dc') {
       drawNextCard();
@@ -724,7 +727,8 @@ async function a() {
       console.log('Wrong');
     }
 
-    input = await getMove(
+    let possibleActions = checkActions(allActions);
+    let input = await getMove(
       gameStates.stack[gameStates.stack.length - 1],
       possibleActions
     );
