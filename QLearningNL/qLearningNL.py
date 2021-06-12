@@ -136,10 +136,12 @@ def index():
     obj = request.get_json();
     state=obj['state']
     actions=obj['actions']
-    #print(state);
+    print(state)
+    print(actions)
     #return "moveCard(1,0,1)"
-    #return "dc"
+    
     training(state,actions)
+    return "dc"
 
 @app.route("/game", methods=["DELETE"])
 def newGame():
