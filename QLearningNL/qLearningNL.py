@@ -30,13 +30,10 @@ if gpus:
 import numpy as np
 import json
 
-# read file
-with open('actions.json', 'r') as myfile:
-    data=myfile.read()
-# parse file
 
-actions = json.loads(data)
-q_table = np.zeros([1,len(actions)])
+
+
+
 
 
 
@@ -55,7 +52,8 @@ epsilon = 0.1
 all_epochs = []
 all_penalties = []
 
-def training(state):
+def training(state,actions):
+    q_table = np.zeros([1,len(actions)])
     #state = env.reset()
     #Get random game
     epochs, penalties, reward, = 0, 0, 0
@@ -96,7 +94,7 @@ def training(state):
 total_epochs, total_penalties = 0, 0
 episodes = 100
 
-# def evaluation(state):
+# def evaluation(state,actions):
 #     #state = env.reset()
 #     #Get random game
 #     epochs, penalties, reward = 0, 0, 0
@@ -135,11 +133,14 @@ app = Flask(__name__)
 @app.route("/move", methods=['GET'])
 def index():
     print("received");
-    state = request.get_json();
+    # obj = request.get_json();
+    # print(obj)
+    state=request.form['state']
+    actions=request.form['actions']
     #print(state);
     #return "moveCard(1,0,1)"
     #return "dc"
-    training(state)
+    training(state,actions)
 
 @app.route("/game", methods=["DELETE"])
 def newGame():

@@ -1,14 +1,17 @@
 let cardsCopy = require('./cards.json').cards;
+let fs = require('fs');
 const prompt = require('prompt-sync')();
 const { returnScenario } = require('./scenarioLoader');
 const ax = require('axios');
+let allActions = [];
+getActions();
 
-async function getMove(state) {
+async function getMove(state, possibleActions) {
   const { data } = await ax({
     url: 'http://127.0.0.1:3456/move',
     method: 'GET',
     contentType: 'application/json',
-    data: state,
+    data: { state: state, actions: possibleActions },
   });
   return data;
 }
@@ -17,6 +20,12 @@ async function newGameInit() {
   await ax({
     url: 'http://127.0.0.1:3456/game',
     method: 'DELETE',
+  });
+}
+
+function getActions() {
+  fs.readFile('actions.json', 'utf8', function (err, data) {
+    allActions = JSON.parse(data);
   });
 }
 
@@ -197,99 +206,7 @@ function moveCard(oldStackName, index, newStackName) {
     console.log('X--S: ', x.cardValue);
   }
   if (gameWonFlag) return;
-  if (newStack.name == deck.name || newStack.name == deckOpen.name) {
-    throw 'Oldstack => Deck || DeckOpen';
-  }
-  if (
-    oldStack.name == deck.name ||
-    (oldStack.name == deckOpen.name && index != 0)
-  ) {
-    throw 'Oldstack => Deck || DeckOpen';
-  }
 
-  if (
-    oldStack.name == endstack_1.name &&
-    oldStack.name == endstack_2.name &&
-    oldStack.name == endstack_3.name &&
-    oldStack.name == endstack_4.name
-  ) {
-    // console.log('INSIDE OLDSTACK-ENDSTACK-IF');
-    if (index != 0) {
-      throw 'oldstack == Endstack_X && Index != 0';
-    }
-  }
-  if (
-    newStack.name != endstack_1.name &&
-    newStack.name != endstack_2.name &&
-    newStack.name != endstack_3.name &&
-    newStack.name != endstack_4.name
-  ) {
-    // console.log('INSIDE NEWSTACK-ENDSTACK-IF');
-    console.log(stack_2.stack);
-    console.log(stack_3.stack);
-    if (oldStack.stack[index].visible == false) {
-      throw 'newstack !=> Endstack_X && Visible == false';
-    }
-    // console.log('Flag 1');
-
-    // console.log('IF 1: ', oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0);
-    // console.log('IF 2: ', Number(oldStack.stack[index].cardValue) + 1 != newStack.stack[0].cardValue);
-
-    if (oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0) {
-      throw 'newstack !=> Endstack_X && oS.cardvalue == 13 && nS.length != 0';
-    }
-    if (oldStack.stack[index].cardValue + 1 != newStack.stack[0].cardValue) {
-      throw `newstack !=> Endstack_X && oS.cardvalue+1 != nS.cardValue::::: Card Old: ${oldStack.stack[index].cardValue} --- Card New: ${newStack.stack[0].cardValue}`;
-    }
-    // console.log('Flag 2');
-
-    let allowedColor = [1, 4];
-    switch (oldStack.stack[index].type) {
-      case 1:
-        allowedColor = [2, 3];
-        break;
-      case 4:
-        allowedColor = [2, 3];
-        break;
-      case 2:
-        allowedColor = [1, 4];
-        break;
-      case 3:
-        allowedColor = [1, 4];
-        break;
-    }
-    // console.log('Flag 3');
-
-    if (!allowedColor.includes(newStack.stack[0].type)) {
-      throw `newstack !=> Endstack_X && allowedColor == false::::: Card Color: ${oldStack.stack[index].type}|| Allowed Color: ${allowedColor}|| NewStack Card Color: ${newStack.stack[0].type}`;
-    }
-    // console.log('ENDE VON NEWSTACK-IF');
-  } else {
-    // console.log('INSIDE LAST-BIG-ELSE');
-    console.log('INSIDE NEWSTACK == ENDSTACK');
-    console.log('##########');
-    console.log(oldStack.stack[index]);
-    let tempCard = oldStack.stack[index];
-    console.log('##########');
-
-    if (newStack.stack.length == 0 && tempCard.cardValue != 1) {
-      throw 'newstack.length == 0 && oldstack.cardvalue != 1';
-    } else if (
-      newStack.stack.length != 0 &&
-      oldStack.stack[index].cardValue - 1 != newStack.stack[index].cardValue &&
-      oldStack.stack[index].cardValue > 1
-    ) {
-      throw 'oS.cardvalue-1 != nS.cardvalue';
-    }
-    let tempType = newStack.type;
-    let notAllowedFlag = false;
-    for (let i = index; i >= 0; i--) {
-      if (oldStack.stack[i].type != tempType) notAllowedFlag = true;
-    }
-    if (notAllowedFlag) {
-      throw 'notAllowedFlag == true';
-    }
-  }
   // console.log('NO EXECPTIONS');
 
   gameStates.stack.push(new GameState());
@@ -305,6 +222,129 @@ function moveCard(oldStackName, index, newStackName) {
   //Nach jedem Card_Move wird gecheckt
   checkWin();
 }
+
+function checkActions(allActions) {
+  let possibleActions = [];
+  for (let i of allActions) {
+    if (i != 'dc') {
+      let temp = input.split('(')[1].split(')')[0].split(',');
+      let index = Number(temp[1]);
+      let oldStack = stack_List.find((el) => el.name == temp[0]);
+      let newStack = stack_List.find((el) => el.name == temp[2]);
+      if (newStack.name == deck.name || newStack.name == deckOpen.name) {
+        //throw 'Oldstack => Deck || DeckOpen';
+        continue;
+      }
+      if (
+        oldStack.name == deck.name ||
+        (oldStack.name == deckOpen.name && index != 0)
+      ) {
+        //throw 'Oldstack => Deck || DeckOpen';
+        continue;
+      }
+
+      if (
+        oldStack.name == endstack_1.name &&
+        oldStack.name == endstack_2.name &&
+        oldStack.name == endstack_3.name &&
+        oldStack.name == endstack_4.name
+      ) {
+        // console.log('INSIDE OLDSTACK-ENDSTACK-IF');
+        if (index != 0) {
+          //throw 'oldstack == Endstack_X && Index != 0';
+          continue;
+        }
+      }
+      if (
+        newStack.name != endstack_1.name &&
+        newStack.name != endstack_2.name &&
+        newStack.name != endstack_3.name &&
+        newStack.name != endstack_4.name
+      ) {
+        // console.log('INSIDE NEWSTACK-ENDSTACK-IF');
+        if (oldStack.stack[index].visible == false) {
+          //throw 'newstack !=> Endstack_X && Visible == false';
+          continue;
+        }
+        // console.log('Flag 1');
+
+        // console.log('IF 1: ', oldStack.stack[index].cardValue == 13 && newStack.stack.length != 0);
+        // console.log('IF 2: ', Number(oldStack.stack[index].cardValue) + 1 != newStack.stack[0].cardValue);
+
+        if (
+          oldStack.stack[index].cardValue == 13 &&
+          newStack.stack.length != 0
+        ) {
+          //throw 'newstack !=> Endstack_X && oS.cardvalue == 13 && nS.length != 0';
+          continue;
+        }
+        if (
+          oldStack.stack[index].cardValue + 1 !=
+          newStack.stack[0].cardValue
+        ) {
+          //throw `newstack !=> Endstack_X && oS.cardvalue+1 != nS.cardValue::::: Card Old: ${oldStack.stack[index].cardValue} --- Card New: ${newStack.stack[0].cardValue}`;
+          continue;
+        }
+        // console.log('Flag 2');
+
+        let allowedColor = [];
+        switch (oldStack.stack[index].type) {
+          case 1:
+            allowedColor = [2, 3];
+            break;
+          case 4:
+            allowedColor = [2, 3];
+            break;
+          case 2:
+            allowedColor = [1, 4];
+            break;
+          case 3:
+            allowedColor = [1, 4];
+            break;
+        }
+        // console.log('Flag 3');
+
+        if (!allowedColor.includes(newStack.stack[0].type)) {
+          //throw `newstack !=> Endstack_X && allowedColor == false::::: Card Color: ${oldStack.stack[index].type}|| Allowed Color: ${allowedColor}|| NewStack Card Color: ${newStack.stack[0].type}`;
+          continue;
+        }
+        // console.log('ENDE VON NEWSTACK-IF');
+      } else {
+        // console.log('INSIDE LAST-BIG-ELSE');
+        console.log('INSIDE NEWSTACK == ENDSTACK');
+        console.log('##########');
+        console.log(oldStack.stack[index]);
+        let tempCard = oldStack.stack[index];
+        console.log('##########');
+
+        if (newStack.stack.length == 0 && tempCard.cardValue != 1) {
+          //throw 'newstack.length == 0 && oldstack.cardvalue != 1';
+          continue;
+        } else if (
+          newStack.stack.length != 0 &&
+          oldStack.stack[index].cardValue - 1 !=
+            newStack.stack[index].cardValue &&
+          oldStack.stack[index].cardValue > 1
+        ) {
+          //throw 'oS.cardvalue-1 != nS.cardvalue';
+          continue;
+        }
+        let tempType = newStack.type;
+        let notAllowedFlag = false;
+        for (let i = index; i >= 0; i--) {
+          if (oldStack.stack[i].type != tempType) notAllowedFlag = true;
+        }
+        if (notAllowedFlag) {
+          //throw 'notAllowedFlag == true';
+          continue;
+        }
+      }
+      possibleActions.push(i);
+    }
+  }
+  return possibleActions;
+}
+
 function drawNextCard() {
   if (gameWonFlag) return;
   gameStates.stack.push(new GameState());
@@ -503,7 +543,11 @@ console.log(
 
 //let input = prompt('moveCard(o,i,n) | dc: ');
 async function a() {
-  let input = await getMove(gameStates.stack[gameStates.stack.length - 1]);
+  let possibleActions = checkActions(allActions);
+  let input = await getMove(
+    gameStates.stack[gameStates.stack.length - 1],
+    possibleActions
+  );
   while (input != '') {
     if (input == 'dc') {
       drawNextCard();
