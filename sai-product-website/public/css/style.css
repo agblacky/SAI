@@ -3,7 +3,7 @@
   box-shadow: 0 0 10px 0px rgba(0, 0, 0, 1);
 }
 .bg-img {
-  background:linear-gradient(rgba(0,0,0,0.7), rgba(50,0,0,0.3)), url("../img/cards.png");
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(50, 0, 0, 0.3)), url('../img/cards.png');
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -20,4 +20,10 @@
   .icon {
     width: 48px;
   }
+}
+.home {
+  padding-top: 1.4%;
+  background-image: url('../img/proto.png') !important;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  height: 100vh;
 }
