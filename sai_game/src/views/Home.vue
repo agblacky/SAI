@@ -1,203 +1,146 @@
 <template>
-  <div class="home">
-    <div style="display: flex; flex-flow: column nowrap;">
-      <div style="display: flex; flex-flow: row nowrap;">
-        <CardStack @deckDraw="deckDraw" :isDeck="false" style="margin-left:4.8%" :cards="deck" />
-        <CardStack
-          @CardDropped="cardMove"
-          :isDeckOpen="false"
-          stackId="deckOpen"
-          style="margin-right:21.61%"
-          :cards="deckopen"
-        />
-        <EndStack stackId="endstack_1" :cards="endstack1" />
-        <EndStack stackId="endstack_2" :cards="endstack2" />
-        <EndStack stackId="endstack_3" :cards="endstack3" />
-        <EndStack stackId="endstack_4" style="margin-right:3.5%" :cards="endstack4" />
+  <div>
+    <nav class="navbar navbar-expand-mg navbar-light bg-none shadow fixed-top navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"><img src="../assets/logo.jpg" class="icon rounded"/></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link text-light" aria-current="page">Home</a>
+            </li>
+            <li class="nav-item">
+              <router-link to="/about"  class="nav-link text-light" >Legal</router-link>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div style="display: flex; flex-flow: row nowrap;">
-        <CardStack @CardDropped="cardMove" stackId="stack_1" style="margin-left:15.63%" :cards="stack1" />
-        <CardStack @CardDropped="cardMove" stackId="stack_2" :cards="stack2" />
-        <CardStack @CardDropped="cardMove" stackId="stack_3" :cards="stack3" />
-        <CardStack @CardDropped="cardMove" stackId="stack_4" :cards="stack4" />
-        <CardStack @CardDropped="cardMove" stackId="stack_5" :cards="stack5" />
-        <CardStack @CardDropped="cardMove" stackId="stack_6" :cards="stack6" />
-        <CardStack @CardDropped="cardMove" stackId="stack_7" style="margin-right:3.5%" :cards="stack7" />
-      </div>
-    </div>
+    </nav>
+
     <div
-      style="background-color: #11111170; position:fixed; bottom: 0.7%;min-height:9.2%; width: 98.4%; border: solid #995555 5px;display:flex;"
+      class="
+        container-fluid
+        site
+        d-flex
+        flex-wrap
+        justify-content-around
+        align-items-center 
+        align-content-center
+        bg-img
+      "
     >
-      <button
-        disabled
-        style="border: solid #00000000;background-color: #11111180; color: white;font-size:58px"
-      >
-        {{ counter + '\t' }}
-      </button>
-      <img @click="reloadW" src="../assets/restart.png" style="margin-left:25%" alt="" />
-      <img v-if="true" @click="undoMove" src="../assets/undo.png" style="margin-left:1%;" alt="" />
-      <img @click="runDemo" src="../assets/ai-button.png" style="margin-left:1%;" alt="" />
+      <div class="col-12 col-md-3 text-light">
+        <h2>Description</h2>
+        <p>
+          SAI is a pixel-art looking klondike solitaire game to play online for free. Find yourself stuck? No
+          problem! Our self-created state of the art QLearning neuronal network is going to help you at your
+          next decision. <router-link to="/game" class="link-light">Click here to play.</router-link><br />
+          <span class="blockquote-footer text-light"> Solitaire made easy </span>
+        </p>
+      </div>
+      <video width="853" height="480" class="img-fluid rounded shadow" controls autoplay loop="true">
+        <source src="../assets/preview.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
     </div>
+    <section class="m-5 p-5">
+      <div class="container">
+        <div class="row justify-content-center text-center section-intro">
+          <div class="col-12 col-md-9 col-lg-8">
+            <h2 class="display-4 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+              Comments from the developers
+            </h2>
+            <span class="lead aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"
+              >Read what the creators of SAI have to say</span
+            >
+          </div>
+          <!--end of col-->
+        </div>
+        <!--end of row-->
+
+        <div class="row d-flex justify-content-around feature-list feature-list-sm">
+          <div class="card p-0 mt-4" style="width: 18rem">
+            <img src="../assets/maxpb.png" class="card-img-top" alt="..." />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Maximilian Blam</h5>
+              <p class="card-text">
+                "Never underestimate your goals."
+              </p>
+              <a
+                href="https://www.linkedin.com/in/maximilian-b-920b49187/"
+                target="_blank"
+                class="btn btn-outline-primary d-block mt-auto"
+                >View LinkedIn Profile</a
+              >
+            </div>
+          </div>
+          <div class="card p-0 mt-4" style="width: 18rem">
+            <img src="../assets/ahmedpb.png" class="card-img-top" alt="..." />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Ahmed Hasanovic</h5>
+              <p class="card-text">
+                "Do tomorrow, what you can do tomorrow"
+              </p>
+              <a
+                href="https://www.linkedin.com/in/ahmed-hasanovic-07a215188/"
+                target="_blank"
+                class="btn btn-outline-primary d-block mt-auto"
+                >View LinkedIn Profile</a
+              >
+            </div>
+          </div>
+          <div class="card p-0 mt-4" style="width: 18rem">
+            <img src="../assets/moritzpb.png" class="card-img-top" alt="..." />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Moritz Miedler</h5>
+              <p class="card-text">
+                "Bruh? Bitte sein Sie mein bruh 🥺"
+              </p>
+              <a
+                href="https://www.linkedin.com/in/moritz-miedler-bb6107189/"
+                target="_blank"
+                class="btn btn-outline-primary d-block mt-auto"
+                >View LinkedIn Profile</a
+              >
+            </div>
+          </div>
+        </div>
+        <!--end of row-->
+      </div>
+      <!--end of container-->
+    </section>
+    <section class="my-5">
+      <div class="container">
+        <div class="row justify-content-center text-center section-intro">
+          <div class="col-12 col-md-9 col-lg-8">
+            <h2 class="display-4 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+              Try it yourself
+            </h2>
+          </div>
+          <!--end of col-->
+          <div class="container my-3">
+            <div class="card p-0 mx-auto" style="width: 18rem">
+              <img src="../assets/preview.png" class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h5 class="card-title">SAI</h5>
+                <p class="card-text">Play it right now online for free!</p>
+                <router-link to="/game" class="btn btn-danger">Visit game</router-link>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end of row-->
+      </div>
+    </section>
   </div>
 </template>
-
-<script>
-import axios from 'axios';
-import game from '../logic/main';
-import CardStack from '@/components/CardStack.vue';
-import EndStack from '@/components/EndStack.vue';
-// @ is an alias to /src
-
-export default {
-  name: 'Home',
-  components: { CardStack, EndStack },
-  data() {
-    return {
-      moves: [],
-      stack1: [],
-      stack2: [],
-      stack3: [],
-      stack4: [],
-      stack5: [],
-      stack6: [],
-      stack7: [],
-      endstack1: [],
-      endstack2: [],
-      endstack3: [],
-      endstack4: [],
-      deck: [],
-      deckopen: [],
-      counter: 0,
-      gammestates: [],
-    };
-  },
-  methods: {
-    runDemo() {
-      setTimeout(() => {
-        let counter = 2000;
-        for (let move of this.moves) {
-          if (move.drawNext) {
-            setTimeout(() => {
-              game.drawNextCard();
-              this.getStacks();
-            }, counter);
-          } else {
-            setTimeout(() => {
-              game.moveCard(move.from, move.id, move.to);
-              this.getStacks();
-            }, counter);
-          }
-          counter += 1000;
-        }
-      }, 1000);
-    },
-
-    undoMove() {
-      game.gameStates.stack.pop();
-      this.reloadFromGamestates();
-    },
-    reloadW() {
-      location.reload();
-    },
-    deckDraw() {
-      game.drawNextCard();
-      this.getStacks();
-    },
-    bruh() {
-      console.log('BRUH');
-      Object.assign(this.stack3, game.stack_1.stack).reverse();
-    },
-    cardMove(e) {
-      console.log(e);
-      try {
-        if (e.from.includes('deck')) game.moveCard(e.from, 0, e.to);
-        else game.moveCard(e.from, e.OldIndex, e.to);
-      } catch (ex) {
-        console.log('Bruh: ', ex);
-      }
-      this.getStacks();
-      console.log(game.stack_List.find((el) => el.name == e.to).stack);
-    },
-    reloadFromGamestates() {
-      console.log('GAMMESTATES');
-      console.log(this.gammestates);
-
-      console.log(game.gameStates.stack);
-      console.log('########');
-      console.log(game.gameStates.stack);
-      console.log('-#-#-#-###');
-
-      game.stack_1 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_1;
-      game.stack_2 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_2;
-      game.stack_3 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_3;
-      game.stack_4 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_4;
-      game.stack_5 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_5;
-      game.stack_6 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_6;
-      game.stack_7 = game.gameStates.stack[game.gameStates.stack.length - 1].stack_7;
-      game.endstack_1 = game.gameStates.stack[game.gameStates.stack.length - 1].endstack_1;
-      game.endstack_2 = game.gameStates.stack[game.gameStates.stack.length - 1].endstack_2;
-      game.endstack_3 = game.gameStates.stack[game.gameStates.stack.length - 1].endstack_3;
-      game.endstack_4 = game.gameStates.stack[game.gameStates.stack.length - 1].endstack_4;
-      game.deck = game.gameStates.stack[game.gameStates.stack.length - 1].deck;
-      game.deckOpen = game.gameStates.stack[game.gameStates.stack.length - 1].deckOpen;
-      console.log('RELOADFROMGAMESTATES');
-      console.log(game.stack_1);
-      console.log('RELOADFROMGAMESTATES');
-
-      this.getStacks();
-    },
-    async getMoves() {
-      let temp = await axios({
-        url: '/moves.json',
-        method: 'get',
-      });
-      this.moves = temp.data.moves;
-    },
-    getStacks() {
-      console.log('STACKS Updated');
-      this.stack1 = [];
-      this.stack2 = [];
-      this.stack3 = [];
-      this.stack4 = [];
-      this.stack5 = [];
-      this.stack6 = [];
-      this.stack7 = [];
-      this.endstack1 = [];
-      this.endstack2 = [];
-      this.endstack3 = [];
-      this.endstack4 = [];
-      this.deck = [];
-      this.deckopen = [];
-      //    setTimeout(() => {
-      Object.assign(this.stack1, game.stack_1.stack).reverse();
-      Object.assign(this.stack2, game.stack_2.stack).reverse();
-      Object.assign(this.stack3, game.stack_3.stack).reverse();
-      Object.assign(this.stack4, game.stack_4.stack).reverse();
-      Object.assign(this.stack5, game.stack_5.stack).reverse();
-      Object.assign(this.stack6, game.stack_6.stack).reverse();
-      Object.assign(this.stack7, game.stack_7.stack).reverse();
-      Object.assign(this.endstack1, game.endstack_1.stack);
-      Object.assign(this.endstack2, game.endstack_2.stack);
-      Object.assign(this.endstack3, game.endstack_3.stack);
-      Object.assign(this.endstack4, game.endstack_4.stack);
-      Object.assign(this.deck, game.deck.stack).reverse();
-      Object.assign(this.deckopen, game.deckOpen.stack).reverse();
-      this.counter = game.gameStates.stack.length | 0;
-      this.gammestates = game.gameStates.stack;
-      // }, 30);
-    },
-  },
-  created() {
-    this.getMoves();
-    game.setUpScene(1);
-    //game.setUpAlgo();
-    console.log(game.stack_3);
-    this.getStacks();
-  },
-};
-</script>
-<style lang="css" scoped>
-.home {
-  padding-top: 1.4%;
-}
-</style>
