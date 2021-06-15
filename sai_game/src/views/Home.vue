@@ -148,7 +148,7 @@ export default {
     },
     async getMoves() {
       let temp = await axios({
-        url: 'http://localhost:8080/moves.json',
+        url: '/moves.json',
         method: 'get',
       });
       this.moves = temp.data.moves;
